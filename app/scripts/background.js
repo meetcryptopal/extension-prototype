@@ -1,9 +1,16 @@
-browser.runtime.onInstalled.addListener((details) => {
-  console.log('previousVersion', details.previousVersion)
-})
+chrome.tabs.onUpdated.addListener((_tabId, changeInfo, tab) => {
+  const { status } = changeInfo;
+  const { url } = tab;
 
-browser.browserAction.setBadgeText({
-  text: `'Allo`
-})
+  if (status === "complete" && url && url.startsWith("http")) console.log(url);
+});
 
-console.log(`'Allo 'Allo! Event Page for Browser Action`)
+// browser.runtime.onInstalled.addListener((details) => {
+//   console.log('previousVersion', details.previousVersion)
+// })
+
+// browser.browserAction.setBadgeText({
+//   text: `'Allo`
+// })
+
+// console.log(`'Allo 'Allo! Event Page for Browser Action`)
