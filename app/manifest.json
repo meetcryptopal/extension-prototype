@@ -42,6 +42,7 @@
         "styles/contentscript.css"
       ],
       "js": [
+        "vendor/jquery.js",
         "services/facebook.js",
         "scripts/contentscript.js"
       ],
