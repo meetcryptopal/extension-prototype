@@ -37,6 +37,7 @@
       "js": [
         "vendor/jquery.js",
         "services/facebook.js",
+        "services/linkedin.js",
         "scripts/contentscript.js"
       ],
       "run_at": "document_end",
