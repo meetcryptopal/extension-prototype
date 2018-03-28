@@ -10,9 +10,7 @@
     "128": "images/icon-128.png"
   },
   "background": {
-    "scripts": [
-      "scripts/background.js"
-    ]
+    "scripts": ["scripts/background.js"]
   },
   "browser_action": {
     "default_icon": {
@@ -34,13 +32,8 @@
   },
   "content_scripts": [
     {
-      "matches": [
-        "http://*/*",
-        "https://*/*"
-      ],
-      "css": [
-        "styles/contentscript.css"
-      ],
+      "matches": ["http://*/*", "https://*/*"],
+      "css": ["styles/contentscript.css"],
       "js": [
         "vendor/jquery.js",
         "services/facebook.js",
@@ -55,28 +48,22 @@
     "alarms",
     "bookmarks",
     "browsingData",
-    "browserSettings",
     "contextMenus",
-    "contextualIdentities",
     "cookies",
     "downloads",
     "downloads.open",
-    "find",
     "geolocation",
     "history",
     "identity",
     "idle",
     "management",
-    "menus",
     "nativeMessaging",
     "notifications",
-    "pkcs11",
     "privacy",
     "proxy",
     "sessions",
     "storage",
     "tabs",
-    "theme",
     "topSites",
     "webNavigation",
     "webRequest",
