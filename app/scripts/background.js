@@ -2,7 +2,9 @@ chrome.tabs.onUpdated.addListener((_tabId, changeInfo, tab) => {
   const { status } = changeInfo;
   const { url } = tab;
 
-  if (status === "complete" && url && url.startsWith("http")) console.log(url);
+  if (status === "complete" && url && url.startsWith("http")) {
+    console.log("CRYPTOPAL: ", url);
+  }
 });
 
 // browser.runtime.onInstalled.addListener((details) => {
