@@ -1,4 +1,4 @@
-# Chrome Extension Webpack Boilerplate
+# Cryptopal Prototype
 
 A basic foundation boilerplate for rich Chrome Extensions using [Webpack](https://webpack.github.io/) to help you write modular and modern Javascript code, load CSS easily and [automatic reload the browser on code changes](https://webpack.github.io/docs/webpack-dev-server.html#automatic-refresh).
 
