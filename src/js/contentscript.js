@@ -1,5 +1,5 @@
 import $ from "jquery";
-import LinkedIn from "./services/linked-in";
+import LinkedIn from "./services/linkedin";
 
 // routes
 const LINKEDIN_FEED_URL = "https://www.linkedin.com/feed/";
