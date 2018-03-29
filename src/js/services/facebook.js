@@ -6,12 +6,14 @@ export default () => {
 
   $(window).on("load", () => {
     $("body").on("click", ".UFILikeLink", e => {
-      console.log("LIKE BUTTON CLICKEDZZZZ");
-      const comment = $(e.target)
-        .closest("div.UFICommentContentBlock")
-        .find(".UFICommentBody")
+      console.log("Liked something");
+      console.log(JSON.stringify($(e.target)));
+      const $likeBtn = $(e.target);
+      const title = $likeBtn
+        .closest(".userContentWrapper")
+        .find("h5")
         .text();
-      console.log(comment);
+      console.log(title);
     });
   });
 };
