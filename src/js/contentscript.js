@@ -1,11 +1,13 @@
 import $ from "jquery";
 import LinkedIn from "./services/linkedin";
+import Shopify from "./services/shopify";
 import facebook from "./services/facebook";
 
 // TODO: This should be bound from manifest.json.
 // I need fuzzy matching. the FB service will be responsible for only running
 // when it's needed.
 const scrape = () => {
+  Shopify.scrapeCheckout();
   facebook();
   LinkedIn.scrapeFeed();
   // LinkedIn.scrapeProfile();
