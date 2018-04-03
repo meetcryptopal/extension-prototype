@@ -1,6 +1,11 @@
 import $ from "jquery";
 
+const LINKEDIN_FEED_URL = "https://www.linkedin.com/feed/";
+
 const scrapeFeed = () => {
+  if (location.href !== LINKEDIN_FEED_URL) {
+    return;
+  }
   console.log("LINKEDIN FEED DETECTED");
 
   const LINKEDIN_NAME_CLASS = ".feed-identity-module__actor-link";
