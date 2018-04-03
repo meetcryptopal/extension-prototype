@@ -9,6 +9,32 @@ const scrapeCheckout = () => {
 
   if (isShopifySite && isCheckout) {
     console.log("SHOPIFY CHECKOUT DETECTED");
+
+    const SHOPIFY_PRODUCT_CONTAINER_SELECTOR = ".product";
+    const SHOPIFY_PRODUCT_NAME_SELECTOR = ".product__description__name";
+    const SHOPIFY_PRODUCT_VARIANT_SELECTOR = ".product__description__variant";
+    const SHOPIFY_PRODUCT_QUANTITY_SELECTOR = ".product__quantity";
+    const SHOPIFY_PRODUCT_PRICE_SELECTOR = ".product__price";
+
+    $(SHOPIFY_PRODUCT_CONTAINER_SELECTOR).each((i, element) => {
+      const productName = $(element)
+        .find(SHOPIFY_PRODUCT_NAME_SELECTOR)
+        .text();
+      const productVariant = $(element)
+        .find(SHOPIFY_PRODUCT_VARIANT_SELECTOR)
+        .text();
+      const productQuantity = $(element)
+        .find(SHOPIFY_PRODUCT_QUANTITY_SELECTOR)
+        .text();
+      const productPrice = $(element)
+        .find(SHOPIFY_PRODUCT_PRICE_SELECTOR)
+        .text();
+
+      console.log("SHOPIFY PRODUCT NAME:", productName);
+      console.log("SHOPIFY PRODUCT VARIANT:", productVariant);
+      console.log("SHOPIFY PRODUCT QUANTITY:", productQuantity);
+      console.log("SHOPIFY PRODUCT PRICE:", productPrice);
+    });
   }
 };
 
