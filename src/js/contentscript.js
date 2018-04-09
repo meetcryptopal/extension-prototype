@@ -2,6 +2,7 @@ import $ from "jquery";
 import LinkedIn from "./services/linkedin";
 import Shopify from "./services/shopify";
 import Amazon from "./services/amazon";
+import Twitter from "./services/twitter";
 import facebook from "./services/facebook";
 
 // TODO: This should be bound from manifest.json.
@@ -10,6 +11,8 @@ import facebook from "./services/facebook";
 const scrape = () => {
   Amazon.scrapeCart();
   Shopify.scrapeCheckout();
+
+  Twitter.trackLike();
   facebook();
   LinkedIn.scrapeFeed();
   // LinkedIn.scrapeProfile();
