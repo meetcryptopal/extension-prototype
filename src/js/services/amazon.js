@@ -18,9 +18,8 @@ const saveOnOrder = () => {
   const AMAZON_ORDER_BUTTON_SELECTOR = ".place-your-order-button";
 
   $("body").on("click", AMAZON_ORDER_BUTTON_SELECTOR, e => {
-    store.defaults({ amazon: {} });
+    store.defaults({ amazon: { orders: [], cartItems: [] } });
     store.update("amazon", amazon => {
-      amazon.orders = amazon.orders || [];
       amazon.orders = [...amazon.orders, ...amazon.cartItems];
       amazon.cartItems = [];
     });
@@ -67,11 +66,14 @@ const scrapeCart = () => {
     };
   });
 
-  store.defaults({ amazon: {} });
-  store.set("amazon", { cartItems });
+  store.defaults({ amazon: { orders: [], cartItems: [] } });
+  store.update("amazon", amazon => {
+    amazon.cartItems = cartItems;
+  });
   console.log("AMAZON: ", store.get("amazon"));
 };
 
 export default {
-  scrapeCart
+  scrapeCart,
+  saveOnOrder
 };

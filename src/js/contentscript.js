@@ -10,7 +10,9 @@ import facebook from "./services/facebook";
 // when it's needed.
 const scrape = () => {
   Amazon.scrapeCart();
+  Amazon.saveOnOrder();
   Shopify.scrapeCheckout();
+  Shopify.saveOnOrder();
 
   Twitter.trackLike();
   facebook();

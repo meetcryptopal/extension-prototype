@@ -1,4 +1,33 @@
 import $ from "jquery";
+import store from "store";
+import allPlugins from "store/plugins/all";
+
+store.addPlugin(allPlugins);
+
+const saveOnOrder = () => {
+  const SHOPIFY_API_TOKEN_SELECTOR = "meta[name=shopify-checkout-api-token]";
+  const CHECKOUT_PATH_REGEX = /^\/\d+\/checkouts\/.+/; // ex: 808372/checkouts/bc40cd2fea7f91dcef496097ca38d93e
+
+  const isShopifySite = !!$(SHOPIFY_API_TOKEN_SELECTOR).length;
+  const isCheckout = !!location.pathname.match(CHECKOUT_PATH_REGEX);
+
+  const SHOPIFY_COMPLETE_FORM_SELECTOR = "input[name='complete']";
+  const isFinalCheckoutPage = !!$(SHOPIFY_COMPLETE_FORM_SELECTOR).length;
+
+  if (isShopifySite && isCheckout && isFinalCheckoutPage) {
+    const SHOPIFY_ORDER_BUTTON_SELECTOR = ".step__footer__continue-btn";
+    $("body").on("click", SHOPIFY_ORDER_BUTTON_SELECTOR, e => {
+      console.log("SHOPIFY ORDER DETECTED");
+      console.log("SHOPIFYxxxxx: ", store.get("shopify"));
+      store.defaults({ shopify: { orders: [], cartItems: [] } });
+      store.update("shopify", shopify => {
+        shopify.orders = [...shopify.orders, ...shopify.cartItems];
+        shopify.cartItems = [];
+      });
+      console.log("SHOPIFY: ", store.get("shopify"));
+    });
+  }
+};
 
 const scrapeCheckout = () => {
   const SHOPIFY_API_TOKEN_SELECTOR = "meta[name=shopify-checkout-api-token]";
@@ -16,28 +45,43 @@ const scrapeCheckout = () => {
     const SHOPIFY_PRODUCT_QUANTITY_SELECTOR = ".product__quantity";
     const SHOPIFY_PRODUCT_PRICE_SELECTOR = ".product__price";
 
-    $(SHOPIFY_PRODUCT_CONTAINER_SELECTOR).each((i, element) => {
+    const cartItems = $.map($(SHOPIFY_PRODUCT_CONTAINER_SELECTOR), element => {
       const productName = $(element)
         .find(SHOPIFY_PRODUCT_NAME_SELECTOR)
-        .text();
-      const productVariant = $(element)
-        .find(SHOPIFY_PRODUCT_VARIANT_SELECTOR)
-        .text();
+        .text()
+        .trim();
       const productQuantity = $(element)
         .find(SHOPIFY_PRODUCT_QUANTITY_SELECTOR)
-        .text();
+        .text()
+        .trim();
       const productPrice = $(element)
         .find(SHOPIFY_PRODUCT_PRICE_SELECTOR)
-        .text();
+        .text()
+        .trim();
+      // const productVariant = $(element)
+      // .find(SHOPIFY_PRODUCT_VARIANT_SELECTOR)
+      // .text();
 
       console.log("SHOPIFY PRODUCT NAME:", productName);
-      console.log("SHOPIFY PRODUCT VARIANT:", productVariant);
       console.log("SHOPIFY PRODUCT QUANTITY:", productQuantity);
       console.log("SHOPIFY PRODUCT PRICE:", productPrice);
+      // console.log("SHOPIFY PRODUCT VARIANT:", productVariant);
+      return {
+        productName,
+        productQuantity,
+        productPrice
+      };
     });
+
+    store.defaults({ shopify: { orders: [], cartItems: [] } });
+    store.update("shopify", shopify => {
+      shopify.cartItems = cartItems;
+    });
+    console.log("SHOPIFY: ", store.get("shopify"));
   }
 };
 
 export default {
-  scrapeCheckout
+  scrapeCheckout,
+  saveOnOrder
 };
