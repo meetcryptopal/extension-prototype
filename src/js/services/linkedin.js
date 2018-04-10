@@ -24,7 +24,7 @@ const scrapeFeed = () => {
   console.log("LINKEDIN HEADLINE: ", headline);
   console.log("LINKEDIN PROFILE PATH: ", profilePath);
 
-  store.defaults({ linkedin: {} });
+  store.defaults({ linkedin: { profile: {} } });
   store.update("linkedin", linkedin => {
     linkedin.profile = {
       name,
