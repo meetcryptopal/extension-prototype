@@ -1,5 +1,9 @@
 import $ from "jquery";
 import store from "store";
+import allPlugins from "store/plugins/all";
+
+store.addPlugin(allPlugins);
+store.defaults({ amazon: {} });
 
 const saveOnOrder = () => {
   const AMAZON_CHECKOUT_URL =
