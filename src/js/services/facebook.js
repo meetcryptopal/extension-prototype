@@ -22,9 +22,8 @@ export default () => {
       title
     };
 
-    store.defaults({ facebook: {} });
+    store.defaults({ facebook: { likedPosts: [] } });
     store.update("facebook", facebook => {
-      facebook.likedPosts = facebook.likedPosts || [];
       facebook.likedPosts = [...facebook.likedPosts, likedPost];
     });
     console.log("FACEBOOK: ", store.get("facebook"));

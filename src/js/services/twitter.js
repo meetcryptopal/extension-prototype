@@ -1,4 +1,8 @@
 import $ from "jquery";
+import store from "store";
+import allPlugins from "store/plugins/all";
+
+store.addPlugin(allPlugins);
 
 const trackLike = () => {
   const TWITTER_DOMAIN = "https://twitter.com/";
@@ -34,9 +38,21 @@ const trackLike = () => {
       .attr("href");
     const content = $body.text();
 
-    console.log(content);
-    console.log(username);
-    console.log(profileLink);
+    const likedPost = {
+      content,
+      username,
+      profileLink
+    };
+
+    console.log("TWITTER LIKED CONTENT: ", content);
+    console.log("TWITTER USERNAME: ", username);
+    console.log("TWITTER PROFILE LINK: ", profileLink);
+
+    store.defaults({ twitter: { likedPosts: [] } });
+    store.update("twitter", twitter => {
+      twitter.likedPosts = [...twitter.likedPosts, likedPost];
+    });
+    console.log("TWITTER: ", store.get("twitter"));
   });
 };
 
