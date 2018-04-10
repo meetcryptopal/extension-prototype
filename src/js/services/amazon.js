@@ -20,9 +20,6 @@ const saveOnOrder = () => {
     console.log("AMAZON ORDER DETECTED");
 
     store.defaults({ amazon: { orders: [], cartItems: [] } });
-    const cartItemsExist = store.get("amazon").cartItems.length;
-    if (!cartItemsExist) return;
-
     store.update("amazon", amazon => {
       amazon.orders = [...amazon.orders, ...amazon.cartItems];
       amazon.cartItems = [];

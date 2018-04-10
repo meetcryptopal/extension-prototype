@@ -20,9 +20,6 @@ const saveOnOrder = () => {
       console.log("SHOPIFY ORDER DETECTED");
 
       store.defaults({ shopify: { orders: [], cartItems: [] } });
-      const cartItemsExist = store.get("shopify").cartItems.length;
-      if (!cartItemsExist) return;
-
       store.update("shopify", shopify => {
         shopify.orders = [...shopify.orders, ...shopify.cartItems];
         shopify.cartItems = [];
