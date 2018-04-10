@@ -18,8 +18,11 @@ const saveOnOrder = () => {
     const SHOPIFY_ORDER_BUTTON_SELECTOR = ".step__footer__continue-btn";
     $("body").on("click", SHOPIFY_ORDER_BUTTON_SELECTOR, e => {
       console.log("SHOPIFY ORDER DETECTED");
-      console.log("SHOPIFYxxxxx: ", store.get("shopify"));
+
       store.defaults({ shopify: { orders: [], cartItems: [] } });
+      const cartItemsExist = store.get("shopify").cartItems.length;
+      if (!cartItemsExist) return;
+
       store.update("shopify", shopify => {
         shopify.orders = [...shopify.orders, ...shopify.cartItems];
         shopify.cartItems = [];

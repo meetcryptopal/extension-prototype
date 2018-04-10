@@ -13,12 +13,16 @@ const saveOnOrder = () => {
   if (!isCheckout) {
     return;
   }
-  console.log("AMAZON ORDER DETECTED");
 
   const AMAZON_ORDER_BUTTON_SELECTOR = ".place-your-order-button";
 
   $("body").on("click", AMAZON_ORDER_BUTTON_SELECTOR, e => {
+    console.log("AMAZON ORDER DETECTED");
+
     store.defaults({ amazon: { orders: [], cartItems: [] } });
+    const cartItemsExist = store.get("amazon").cartItems.length;
+    if (!cartItemsExist) return;
+
     store.update("amazon", amazon => {
       amazon.orders = [...amazon.orders, ...amazon.cartItems];
       amazon.cartItems = [];
