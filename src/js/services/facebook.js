@@ -3,7 +3,6 @@ import store from "store";
 import allPlugins from "store/plugins/all";
 
 store.addPlugin(allPlugins);
-store.defaults({ facebook: {} });
 
 export default () => {
   // TODO: This should be filtered from manifest.json
@@ -23,6 +22,7 @@ export default () => {
       title
     };
 
+    store.defaults({ facebook: {} });
     store.update("facebook", facebook => {
       facebook.likedPosts = facebook.likedPosts || [];
       facebook.likedPosts = [...facebook.likedPosts, likedPost];

@@ -3,7 +3,6 @@ import store from "store";
 import allPlugins from "store/plugins/all";
 
 store.addPlugin(allPlugins);
-store.defaults({ amazon: {} });
 
 const saveOnOrder = () => {
   const AMAZON_CHECKOUT_URL =
@@ -19,6 +18,7 @@ const saveOnOrder = () => {
   const AMAZON_ORDER_BUTTON_SELECTOR = ".place-your-order-button";
 
   $("body").on("click", AMAZON_ORDER_BUTTON_SELECTOR, e => {
+    store.defaults({ amazon: {} });
     store.update("amazon", amazon => {
       amazon.orders = amazon.orders || [];
       amazon.orders = [...amazon.orders, ...amazon.cartItems];
@@ -67,6 +67,7 @@ const scrapeCart = () => {
     };
   });
 
+  store.defaults({ amazon: {} });
   store.set("amazon", { cartItems });
   console.log("AMAZON: ", store.get("amazon"));
 };

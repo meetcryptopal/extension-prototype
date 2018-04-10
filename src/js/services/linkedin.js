@@ -1,4 +1,8 @@
 import $ from "jquery";
+import store from "store";
+import allPlugins from "store/plugins/all";
+
+store.addPlugin(allPlugins);
 
 const LINKEDIN_FEED_URL = "https://www.linkedin.com/feed/";
 
@@ -19,6 +23,16 @@ const scrapeFeed = () => {
   console.log("LINKEDIN NAME: ", name);
   console.log("LINKEDIN HEADLINE: ", headline);
   console.log("LINKEDIN PROFILE PATH: ", profilePath);
+
+  store.defaults({ linkedin: {} });
+  store.update("linkedin", linkedin => {
+    linkedin.profile = {
+      name,
+      headline,
+      profilePath
+    };
+    console.log("LINKEDIN: ", store.get("linkedin"));
+  });
 };
 
 // const scrapeProfile = profilePath => {
