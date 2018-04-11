@@ -4,6 +4,12 @@ import allPlugins from "store/plugins/all";
 
 store.addPlugin(allPlugins);
 
+const STORE_KEY = "amazon";
+
+const initStore = () => {
+  store.defaults({ [STORE_KEY]: { orders: [], cartItems: [] } });
+};
+
 const saveOnOrder = () => {
   const AMAZON_CHECKOUT_URL =
     "https://www.amazon.com/gp/buy/spc/handlers/display.html";
@@ -19,7 +25,7 @@ const saveOnOrder = () => {
   $("body").on("click", AMAZON_ORDER_BUTTON_SELECTOR, e => {
     console.log("AMAZON ORDER DETECTED");
 
-    store.defaults({ amazon: { orders: [], cartItems: [] } });
+    initStore();
     store.update("amazon", amazon => {
       amazon.orders = [...amazon.orders, ...amazon.cartItems];
       amazon.cartItems = [];
@@ -67,7 +73,7 @@ const scrapeCart = () => {
     };
   });
 
-  store.defaults({ amazon: { orders: [], cartItems: [] } });
+  initStore();
   store.update("amazon", amazon => {
     amazon.cartItems = cartItems;
   });

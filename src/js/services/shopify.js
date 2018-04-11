@@ -4,6 +4,12 @@ import allPlugins from "store/plugins/all";
 
 store.addPlugin(allPlugins);
 
+const STORE_KEY = "shopify";
+
+const initStore = () => {
+  store.defaults({ [STORE_KEY]: { orders: [], cartItems: [] } });
+};
+
 const saveOnOrder = () => {
   const SHOPIFY_API_TOKEN_SELECTOR = "meta[name=shopify-checkout-api-token]";
   const CHECKOUT_PATH_REGEX = /^\/\d+\/checkouts\/.+/; // ex: 808372/checkouts/bc40cd2fea7f91dcef496097ca38d93e
@@ -19,7 +25,7 @@ const saveOnOrder = () => {
     $("body").on("click", SHOPIFY_ORDER_BUTTON_SELECTOR, e => {
       console.log("SHOPIFY ORDER DETECTED");
 
-      store.defaults({ shopify: { orders: [], cartItems: [] } });
+      initStore();
       store.update("shopify", shopify => {
         shopify.orders = [...shopify.orders, ...shopify.cartItems];
         shopify.cartItems = [];
@@ -73,7 +79,7 @@ const scrapeCheckout = () => {
       };
     });
 
-    store.defaults({ shopify: { orders: [], cartItems: [] } });
+    initStore();
     store.update("shopify", shopify => {
       shopify.cartItems = cartItems;
     });
