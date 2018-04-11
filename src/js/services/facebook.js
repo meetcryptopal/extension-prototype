@@ -13,14 +13,17 @@ export default () => {
   $("body").on("click", FACEBOOK_LIKE_BUTTON_SELECTOR, e => {
     console.log("FACEBOOK LIKE DETECTED");
     const $likeBtn = $(e.target);
-    const title = $likeBtn
+
+    const content = $likeBtn
       .closest(".userContentWrapper")
-      .find("h5")
+      .find(".userContent")
       .text();
 
     const likedPost = {
-      title
+      content
     };
+
+    console.log("FACEBOOK LIKED CONTENT: ", content);
 
     store.defaults({ facebook: { likedPosts: [] } });
     store.update("facebook", facebook => {

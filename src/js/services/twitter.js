@@ -32,21 +32,13 @@ const trackLike = () => {
       .closest(TWITTER_POST_FOOTER_SELECTOR)
       .siblings(TWITTER_POST_BODY_SELECTOR);
 
-    const username = $header.find(TWITTER_POST_USERNAME_SELECTOR).text();
-    const profileLink = $header
-      .find(TWITTER_POST_PROFILE_LINK_SELECTOR)
-      .attr("href");
     const content = $body.text();
 
     const likedPost = {
-      content,
-      username,
-      profileLink
+      content
     };
 
     console.log("TWITTER LIKED CONTENT: ", content);
-    console.log("TWITTER USERNAME: ", username);
-    console.log("TWITTER PROFILE LINK: ", profileLink);
 
     store.defaults({ twitter: { likedPosts: [] } });
     store.update("twitter", twitter => {
