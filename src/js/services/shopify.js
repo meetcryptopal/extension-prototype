@@ -26,7 +26,7 @@ const saveOnOrder = () => {
       console.log("SHOPIFY ORDER DETECTED");
 
       initStore();
-      store.update("shopify", shopify => {
+      store.update(STORE_KEY, shopify => {
         shopify.orders = [...shopify.orders, ...shopify.cartItems];
         shopify.cartItems = [];
       });
@@ -80,7 +80,7 @@ const scrapeCheckout = () => {
     });
 
     initStore();
-    store.update("shopify", shopify => {
+    store.update(STORE_KEY, shopify => {
       shopify.cartItems = cartItems;
     });
     console.log("SHOPIFY: ", store.get("shopify"));

@@ -26,7 +26,7 @@ const saveOnOrder = () => {
     console.log("AMAZON ORDER DETECTED");
 
     initStore();
-    store.update("amazon", amazon => {
+    store.update(STORE_KEY, amazon => {
       amazon.orders = [...amazon.orders, ...amazon.cartItems];
       amazon.cartItems = [];
     });
@@ -74,7 +74,7 @@ const scrapeCart = () => {
   });
 
   initStore();
-  store.update("amazon", amazon => {
+  store.update(STORE_KEY, amazon => {
     amazon.cartItems = cartItems;
   });
   console.log("AMAZON: ", store.get("amazon"));
