@@ -30,7 +30,7 @@ const saveOnOrder = () => {
         shopify.orders = [...shopify.orders, ...shopify.cartItems];
         shopify.cartItems = [];
       });
-      console.log("SHOPIFY: ", store.get("shopify"));
+      console.log("SHOPIFY: ", store.get(STORE_KEY));
     });
   }
 };
@@ -83,7 +83,7 @@ const scrapeCheckout = () => {
     store.update(STORE_KEY, shopify => {
       shopify.cartItems = cartItems;
     });
-    console.log("SHOPIFY: ", store.get("shopify"));
+    console.log("SHOPIFY: ", store.get(STORE_KEY));
   }
 };
 

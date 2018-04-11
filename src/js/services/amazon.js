@@ -30,7 +30,7 @@ const saveOnOrder = () => {
       amazon.orders = [...amazon.orders, ...amazon.cartItems];
       amazon.cartItems = [];
     });
-    console.log("AMAZON: ", store.get("amazon"));
+    console.log("AMAZON: ", store.get(STORE_KEY));
   });
 };
 
@@ -77,7 +77,7 @@ const scrapeCart = () => {
   store.update(STORE_KEY, amazon => {
     amazon.cartItems = cartItems;
   });
-  console.log("AMAZON: ", store.get("amazon"));
+  console.log("AMAZON: ", store.get(STORE_KEY));
 };
 
 export default {
