@@ -4,7 +4,7 @@ import allPlugins from "store/plugins/all";
 
 store.addPlugin(allPlugins);
 
-export default () => {
+const trackLikes = () => {
   // TODO: This should be filtered from manifest.json
   if (!location.href.toLowerCase().includes("facebook.com")) return;
 
@@ -31,4 +31,8 @@ export default () => {
     });
     console.log("FACEBOOK: ", store.get("facebook"));
   });
+};
+
+export default {
+  trackLikes
 };

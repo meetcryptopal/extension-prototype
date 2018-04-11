@@ -4,7 +4,7 @@ import allPlugins from "store/plugins/all";
 
 store.addPlugin(allPlugins);
 
-const trackLike = () => {
+const trackLikes = () => {
   const TWITTER_DOMAIN = "https://twitter.com/";
 
   const isTwitter = location.href.match(TWITTER_DOMAIN);
@@ -49,5 +49,5 @@ const trackLike = () => {
 };
 
 export default {
-  trackLike
+  trackLikes
 };

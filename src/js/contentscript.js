@@ -3,7 +3,7 @@ import LinkedIn from "./services/linkedin";
 import Shopify from "./services/shopify";
 import Amazon from "./services/amazon";
 import Twitter from "./services/twitter";
-import facebook from "./services/facebook";
+import Facebook from "./services/facebook";
 
 // TODO: This should be bound from manifest.json.
 // I need fuzzy matching. the FB service will be responsible for only running
@@ -14,8 +14,8 @@ const scrape = () => {
   Shopify.scrapeCheckout();
   Shopify.saveOnOrder();
 
-  Twitter.trackLike();
-  facebook();
+  Twitter.trackLikes();
+  Facebook.trackLikes();
   LinkedIn.scrapeFeed();
   // LinkedIn.scrapeProfile();
 };
