@@ -1,8 +1,10 @@
 {
   "name": "CryptoPal Prototype",
   "options_page": "options.html",
+  "permissions": ["tabs"],
   "background": {
-    "page": "background.html"
+    "scripts": ["background.bundle.js"],
+    "persistent": true
   },
   "content_scripts": [
     {

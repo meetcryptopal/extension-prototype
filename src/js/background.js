@@ -1,12 +1,27 @@
-import "../img/icon-128.png";
-import "../img/icon-34.png";
+import store from "store";
+import allPlugins from "store/plugins/all";
 
-// TODO: Use chrome's history event instead.
+store.addPlugin(allPlugins);
+
+const STORE_KEY = "history";
+
+const siteGenerator = (url, title) => {
+  return { url, title };
+};
+
+const initStore = () => {
+  store.defaults({ [STORE_KEY]: { sites: [] } });
+};
+
 chrome.tabs.onUpdated.addListener((_tabId, changeInfo, tab) => {
   const { status } = changeInfo;
-  const { url } = tab;
+  const { url, title } = tab;
 
   if (status === "complete" && url && url.startsWith("http")) {
-    console.log("CRYPTOPAL: ", url);
+    initStore();
+    store.update(STORE_KEY, history => {
+      history.sites = [...history.sites, siteGenerator(url, title)];
+    });
+    console.log("HISTORY: ", store.get(STORE_KEY));
   }
 });
