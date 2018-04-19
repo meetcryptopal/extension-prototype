@@ -21,16 +21,29 @@ const trackLikes = () => {
 
     const username = $likeBtn
       .closest(".userContentWrapper")
-      .find(".fwb.fcg")
+      .find(".fwb")
+      .text();
+
+    const href = $likeBtn
+      .closest(".userContentWrapper")
+      .find("._3ekx a")
+      .attr("href");
+    const anchorText = $likeBtn
+      .closest(".userContentWrapper")
+      .find("._6m3")
       .text();
 
     const likedPost = {
       content,
-      username
+      username,
+      href,
+      anchorText
     };
 
     console.log("FACEBOOK LIKED USER: ", username);
     console.log("FACEBOOK LIKED CONTENT: ", content);
+    console.log("FACEBOOK LIKED HREF: ", href);
+    console.log("FACEBOOK LIKED ANCHOR TEXT: ", anchorText);
 
     store.defaults({ facebook: { likedPosts: [] } });
     store.update("facebook", facebook => {
