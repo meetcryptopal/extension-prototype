@@ -19,10 +19,17 @@ const trackLikes = () => {
       .find(".userContent")
       .text();
 
+    const username = $likeBtn
+      .closest(".userContentWrapper")
+      .find(".fwb.fcg")
+      .text();
+
     const likedPost = {
-      content
+      content,
+      username
     };
 
+    console.log("FACEBOOK LIKED USER: ", username);
     console.log("FACEBOOK LIKED CONTENT: ", content);
 
     store.defaults({ facebook: { likedPosts: [] } });
