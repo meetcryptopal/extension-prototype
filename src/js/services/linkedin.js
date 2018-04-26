@@ -4,6 +4,19 @@ import allPlugins from "store/plugins/all";
 
 store.addPlugin(allPlugins);
 
+const STORE_KEY = "linkedin";
+
+const initStore = () => {
+  store.defaults({
+    [STORE_KEY]: {
+      name: null,
+      headline: null,
+      profilePath: null,
+      location: null
+    }
+  });
+};
+
 const LINKEDIN_FEED_URL = "https://www.linkedin.com/feed/";
 
 const scrapeFeed = () => {
@@ -24,36 +37,35 @@ const scrapeFeed = () => {
   console.log("LINKEDIN HEADLINE: ", headline);
   console.log("LINKEDIN PROFILE PATH: ", profilePath);
 
-  store.defaults({ linkedin: { profile: {} } });
+  initStore();
   store.update("linkedin", linkedin => {
-    linkedin.profile = {
-      name,
-      headline,
-      profilePath
-    };
-    console.log("LINKEDIN: ", store.get("linkedin"));
+    linkedin.name = name;
+    linkedin.headline = headline;
+    linkedin.profilePath = profilePath;
   });
+  console.log("LINKEDIN: ", store.get("linkedin"));
 };
 
-// const scrapeProfile = profilePath => {
-// if (location.pathname !== profilePath) {
-// console.log("LOCATION.PATHNAME: ", location.pathname);
-// console.log("profilePath", profilePath);
-// return;
-// }
-// console.log("LINKEDIN PROFILE DETECTED");
+const scrapeProfile = () => {
+  initStore();
+  const profilePath = store.get(STORE_KEY).profilePath;
 
-// const LINKEDIN_JOB_SECTION_CLASS = ".pv-profile-section__sortable-card-item";
-// const LINKEDIN_JOB_SUMMARY_CLASS = ".pv-entity__summary-info";
+  if (location.pathname === profilePath) {
+    const location = $("body")
+      .find(".pv-top-card-section__location")
+      .first()
+      .text()
+      .trim();
 
-// const currentJob = $(LINKEDIN_JOB_SECTION_CLASS).first();
-// // This is the position, company, dates, location all jumbled together
-// const jobSummary = currentJob.find(LINKEDIN_JOB_SUMMARY_CLASS).text();
-
-// console.log("LINKEDIN JOB SUMMARY: ", jobSummary);
-// };
+    initStore();
+    store.update(STORE_KEY, linkedin => {
+      linkedin.location = location;
+    });
+  }
+  console.log("LINKEDIN: ", store.get(STORE_KEY));
+};
 
 export default {
-  scrapeFeed
-  // scrapeProfile
+  scrapeFeed,
+  scrapeProfile
 };
