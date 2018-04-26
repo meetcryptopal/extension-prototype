@@ -20,7 +20,7 @@ const saveOnOrder = () => {
     return;
   }
 
-  const AMAZON_ORDER_BUTTON_SELECTOR = ".place-your-order-button";
+  const AMAZON_ORDER_BUTTON_SELECTOR = ".place-order-button-link";
 
   $("body").on("click", AMAZON_ORDER_BUTTON_SELECTOR, e => {
     console.log("AMAZON ORDER DETECTED");
