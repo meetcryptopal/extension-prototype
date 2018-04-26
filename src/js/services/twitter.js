@@ -44,15 +44,25 @@ const trackLikes = () => {
       .siblings(TWITTER_RETWEET_BODY_SELECTOR)
       .find(TWITTER_POST_BODY_SELECTOR);
 
-    const username = $header.find(".fullname").text();
-    const content = $body.text();
+    const username = $header
+      .find(".fullname")
+      .text()
+      .trim();
+    const handle = $header
+      .find(".username")
+      .first()
+      .text()
+      .trim();
+    const content = $body.text().trim();
 
     const retweetedPost = {
       content,
-      username
+      username,
+      handle
     };
 
-    console.log("TWITTER RETWEETED USER: ", username);
+    console.log("TWITTER RETWEETED USER NAME: ", username);
+    console.log("TWITTER RETWEETED USER HANDLE: ", handle);
     console.log("TWITTER RETWEETED CONTENT: ", content);
 
     initStore();
@@ -78,14 +88,23 @@ const trackLikes = () => {
       .find(".fullname")
       .text()
       .trim();
+
+    const handle = $header
+      .find(".username")
+      .first()
+      .text()
+      .trim();
+
     const content = $body.text().trim();
 
     const likedPost = {
       content,
-      username
+      username,
+      handle
     };
 
-    console.log("TWITTER LIKED USER: ", username);
+    console.log("TWITTER LIKED USER NAME: ", username);
+    console.log("TWITTER LIKED USER HANDLE: ", handle);
     console.log("TWITTER LIKED CONTENT: ", content);
 
     initStore();
