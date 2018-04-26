@@ -61,8 +61,8 @@ const scrapeProfile = () => {
     store.update(STORE_KEY, linkedin => {
       linkedin.location = location;
     });
+    console.log("LINKEDIN: ", store.get(STORE_KEY));
   }
-  console.log("LINKEDIN: ", store.get(STORE_KEY));
 };
 
 export default {

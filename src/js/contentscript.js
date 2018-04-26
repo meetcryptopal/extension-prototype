@@ -5,9 +5,6 @@ import Amazon from "./services/amazon";
 import Twitter from "./services/twitter";
 import Facebook from "./services/facebook";
 
-// TODO: This should be bound from manifest.json.
-// I need fuzzy matching. the FB service will be responsible for only running
-// when it's needed.
 const scrape = () => {
   Amazon.scrapeCart();
   Amazon.saveOnOrder();
@@ -17,7 +14,7 @@ const scrape = () => {
   Twitter.trackLikes();
   Facebook.trackLikes();
   LinkedIn.scrapeFeed();
-  // LinkedIn.scrapeProfile();
+  LinkedIn.scrapeProfile();
 };
 
 $(function() {
@@ -27,15 +24,4 @@ $(function() {
   $(window).on("load", () => {
     scrape();
   });
-
-  // for JS rendered views + routes
-  // const body = document.querySelector("body");
-  // let currentHref = location.href;
-  // const observer = new MutationObserver(mutations => {
-  // if (currentHref !== location.href) {
-  // currentHref = location.href;
-  // scrape();
-  // }
-  // });
-  // observer.observe(body, { childList: true, subtree: true });
 });
