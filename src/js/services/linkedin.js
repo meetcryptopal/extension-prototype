@@ -42,30 +42,36 @@ const scrapeFeed = () => {
   const LINKEDIN_HEADLINE_CLASS = ".identity-headline";
   const LINKEDIN_PROFILE_LINK_CLASS = ".profile-rail-card__actor-link";
 
-  const name = $(LINKEDIN_NAME_CLASS).text();
-  const headline = $(LINKEDIN_HEADLINE_CLASS).text();
+  const name = $(LINKEDIN_NAME_CLASS)
+    .text()
+    .trim();
+  const headline = $(LINKEDIN_HEADLINE_CLASS)
+    .text()
+    .trim();
   const profilePath = $(LINKEDIN_PROFILE_LINK_CLASS).attr("href");
 
   console.log("LINKEDIN NAME: ", name);
   console.log("LINKEDIN HEADLINE: ", headline);
   console.log("LINKEDIN PROFILE PATH: ", profilePath);
 
-  updateStore({ type: LIKED, payload: { name, headline, profilePath } });
+  updateStore({ type: FEED, payload: { name, headline, profilePath } });
 };
 
 const scrapeProfile = () => {
-  initStore();
-  const profilePath = store.get(STORE_KEY).profilePath;
+  store.get(STORE_KEY, state => {
+    const profilePath = state.profilePath;
 
-  if (location.pathname === profilePath) {
-    const location = $("body")
-      .find(".pv-top-card-section__location")
-      .first()
-      .text()
-      .trim();
+    if (location.pathname === profilePath) {
+      const location = $("body")
+        .find(".pv-top-card-section__location")
+        .first()
+        .text()
+        .trim();
 
-    updateStore({ type: LIKED, payload: { location } });
-  }
+      updateStore({ type: PROFILE, payload: { location } });
+      console.log("LINKEDIN LOCATION: ", location);
+    }
+  });
 };
 
 export default {
