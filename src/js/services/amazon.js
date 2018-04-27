@@ -1,15 +1,13 @@
 import $ from "jquery";
 
+const store = window.chrome.storage.sync;
 const STORE_KEY = "amazon";
 
 // Actions
 const CHECKOUT = "CHECKOUT";
 const ADD_ITEM = "ADD_ITEM";
 
-const store = window.chrome.storage.sync;
-
 const initState = { order: [], cartItems: [] };
-
 const reduceState = (state = initState, { type, payload }) => {
   switch (type) {
     case ADD_ITEM:
@@ -25,8 +23,6 @@ const reduceState = (state = initState, { type, payload }) => {
 };
 
 const updateStore = action => {
-  const store = window.chrome.storage.sync;
-
   store.get(STORE_KEY, state => {
     const nextState = reduceState(state, action);
 

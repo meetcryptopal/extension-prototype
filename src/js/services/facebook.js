@@ -1,8 +1,27 @@
 import $ from "jquery";
-import store from "store";
-import allPlugins from "store/plugins/all";
 
-store.addPlugin(allPlugins);
+const store = window.chrome.storage.sync;
+const STORE_KEY = "facebook";
+
+// Actions
+const LIKED = "LIKED";
+
+const initState = { likedPosts: [] };
+const reduceState = (state = initState, { type, payload }) => {
+  switch (type) {
+    case LIKED:
+      return { ...state, likedPosts: [payload, ...state.likedPosts] };
+  }
+};
+
+const updateStore = action => {
+  store.get(STORE_KEY, state => {
+    const nextState = reduceState(state, action);
+
+    store.set({ [STORE_KEY]: nextState });
+    console.log(`${STORE_KEY}: `, nextState);
+  });
+};
 
 const trackLikes = () => {
   // TODO: This should be filtered from manifest.json
@@ -45,11 +64,7 @@ const trackLikes = () => {
     console.log("FACEBOOK LIKED HREF: ", href);
     console.log("FACEBOOK LIKED ANCHOR TEXT: ", anchorText);
 
-    store.defaults({ facebook: { likedPosts: [] } });
-    store.update("facebook", facebook => {
-      facebook.likedPosts = [...facebook.likedPosts, likedPost];
-    });
-    console.log("FACEBOOK: ", store.get("facebook"));
+    updateStore({ type: LIKED, likedPost });
   });
 };
 
