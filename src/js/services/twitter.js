@@ -1,13 +1,29 @@
 import $ from "jquery";
-import store from "store";
-import allPlugins from "store/plugins/all";
 
-store.addPlugin(allPlugins);
+const store = window.chrome.storage.sync;
+const STORE_KEY = "facebook";
 
-const STORE_KEY = "twitter";
+// Actions
+const LIKED = "LIKED";
+const RETWEET = "RETWEET";
 
-const initStore = () => {
-  store.defaults({ [STORE_KEY]: { likedPosts: [], retweetedPosts: [] } });
+const initState = { likedPosts: [], retweetedPosts: [] };
+const reduceState = (state = initState, { type, payload }) => {
+  switch (type) {
+    case LIKED:
+      return { ...state, likedPosts: [payload, ...state.likedPosts] };
+    case RETWEET:
+      return { ...state, retweetedPosts: [payload, ...state.retweetedPosts] };
+  }
+};
+
+const updateStore = action => {
+  store.get(STORE_KEY, state => {
+    const nextState = reduceState(state, action);
+
+    store.set({ [STORE_KEY]: nextState });
+    console.log(`${STORE_KEY}: `, nextState);
+  });
 };
 
 const trackLikes = () => {
@@ -65,12 +81,7 @@ const trackLikes = () => {
     console.log("TWITTER RETWEETED USER HANDLE: ", handle);
     console.log("TWITTER RETWEETED CONTENT: ", content);
 
-    initStore();
-    store.update(STORE_KEY, twitter => {
-      twitter.retweetedPosts = twitter.retweetedPosts || [];
-      twitter.retweetedPosts = [...twitter.retweetedPosts, retweetedPost];
-    });
-    console.log("TWITTER: ", store.get("twitter"));
+    updateStore({ type: RETWEET, payload: retweetedPost });
   });
 
   // liking
@@ -107,12 +118,7 @@ const trackLikes = () => {
     console.log("TWITTER LIKED USER HANDLE: ", handle);
     console.log("TWITTER LIKED CONTENT: ", content);
 
-    initStore();
-    store.update(STORE_KEY, twitter => {
-      twitter.likedPosts = twitter.likedPosts || [];
-      twitter.likedPosts = [...twitter.likedPosts, likedPost];
-    });
-    console.log("TWITTER: ", store.get("twitter"));
+    updateStore({ type: LIKED, payload: likedPost });
   });
 };
 
