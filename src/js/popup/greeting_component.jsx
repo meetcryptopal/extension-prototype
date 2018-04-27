@@ -25,8 +25,6 @@ const styles = {
 
 export default class extends React.Component {
   downloadData() {
-    console.log(chrome.storage);
-    console.log(window.chrome.storage);
     window.chrome.storage.sync.get(null, data => {
       console.log("DATA: ", data);
       const dataJson = JSON.stringify(data);
