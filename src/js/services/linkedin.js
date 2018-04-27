@@ -1,7 +1,7 @@
 import $ from "jquery";
 
 const store = window.chrome.storage.sync;
-const STORE_KEY = "facebook";
+const STORE_KEY = "linkedin";
 
 // Actions
 const FEED = "FEED";
