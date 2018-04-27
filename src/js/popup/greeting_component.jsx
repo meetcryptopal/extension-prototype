@@ -25,9 +25,14 @@ const styles = {
 
 export default class extends React.Component {
   downloadData() {
-    const dataJson = JSON.stringify(window.localStorage);
-    var dataBlob = new Blob([dataJson], { type: "text/plain;charset=utf-8" });
-    FileSaver.saveAs(dataBlob, "cryptopal.txt");
+    console.log(chrome.storage);
+    console.log(window.chrome.storage);
+    window.chrome.storage.sync.get(null, data => {
+      console.log("DATA: ", data);
+      const dataJson = JSON.stringify(data);
+      var dataBlob = new Blob([dataJson], { type: "text/plain;charset=utf-8" });
+      FileSaver.saveAs(dataBlob, "cryptopal.txt");
+    });
   }
 
   render() {
