@@ -1,19 +1,32 @@
 import $ from "jquery";
-import store from "store";
-import allPlugins from "store/plugins/all";
 
-store.addPlugin(allPlugins);
+const store = window.chrome.storage.sync;
+const STORE_KEY = "facebook";
 
-const STORE_KEY = "linkedin";
+// Actions
+const FEED = "FEED";
+const PROFILE = "PROFILE";
 
-const initStore = () => {
-  store.defaults({
-    [STORE_KEY]: {
-      name: null,
-      headline: null,
-      profilePath: null,
-      location: null
-    }
+const initState = {
+  name: null,
+  headline: null,
+  profilePath: null,
+  location: null
+};
+const reduceState = (state = initState, { type, payload }) => {
+  switch (type) {
+    case FEED:
+    case PROFILE:
+      return { ...state, ...payload };
+  }
+};
+
+const updateStore = action => {
+  store.get(STORE_KEY, state => {
+    const nextState = reduceState(state, action);
+
+    store.set({ [STORE_KEY]: nextState });
+    console.log(`${STORE_KEY}: `, nextState);
   });
 };
 
@@ -37,13 +50,7 @@ const scrapeFeed = () => {
   console.log("LINKEDIN HEADLINE: ", headline);
   console.log("LINKEDIN PROFILE PATH: ", profilePath);
 
-  initStore();
-  store.update("linkedin", linkedin => {
-    linkedin.name = name;
-    linkedin.headline = headline;
-    linkedin.profilePath = profilePath;
-  });
-  console.log("LINKEDIN: ", store.get("linkedin"));
+  updateStore({ type: LIKED, payload: { name, headline, profilePath } });
 };
 
 const scrapeProfile = () => {
@@ -57,11 +64,7 @@ const scrapeProfile = () => {
       .text()
       .trim();
 
-    initStore();
-    store.update(STORE_KEY, linkedin => {
-      linkedin.location = location;
-    });
-    console.log("LINKEDIN: ", store.get(STORE_KEY));
+    updateStore({ type: LIKED, payload: { location } });
   }
 };
 

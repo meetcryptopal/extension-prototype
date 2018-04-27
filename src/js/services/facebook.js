@@ -64,7 +64,7 @@ const trackLikes = () => {
     console.log("FACEBOOK LIKED HREF: ", href);
     console.log("FACEBOOK LIKED ANCHOR TEXT: ", anchorText);
 
-    updateStore({ type: LIKED, likedPost });
+    updateStore({ type: LIKED, payload: likedPost });
   });
 };
 
