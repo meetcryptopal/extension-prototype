@@ -1,19 +1,32 @@
 import $ from "jquery";
-import store from "store";
-import allPlugins from "store/plugins/all";
 
-store.addPlugin(allPlugins);
-
+const store = window.chrome.storage.sync;
 const STORE_KEY = "linkedin";
 
-const initStore = () => {
-  store.defaults({
-    [STORE_KEY]: {
-      name: null,
-      headline: null,
-      profilePath: null,
-      location: null
-    }
+// Actions
+const FEED = "FEED";
+const PROFILE = "PROFILE";
+
+const initState = {
+  name: null,
+  headline: null,
+  profilePath: null,
+  location: null
+};
+const reduceState = (state = initState, { type, payload }) => {
+  switch (type) {
+    case FEED:
+    case PROFILE:
+      return { ...state, ...payload };
+  }
+};
+
+const updateStore = action => {
+  store.get(STORE_KEY, state => {
+    const nextState = reduceState(state, action);
+
+    store.set({ [STORE_KEY]: nextState });
+    console.log(`${STORE_KEY}: `, nextState);
   });
 };
 
@@ -29,40 +42,36 @@ const scrapeFeed = () => {
   const LINKEDIN_HEADLINE_CLASS = ".identity-headline";
   const LINKEDIN_PROFILE_LINK_CLASS = ".profile-rail-card__actor-link";
 
-  const name = $(LINKEDIN_NAME_CLASS).text();
-  const headline = $(LINKEDIN_HEADLINE_CLASS).text();
+  const name = $(LINKEDIN_NAME_CLASS)
+    .text()
+    .trim();
+  const headline = $(LINKEDIN_HEADLINE_CLASS)
+    .text()
+    .trim();
   const profilePath = $(LINKEDIN_PROFILE_LINK_CLASS).attr("href");
 
   console.log("LINKEDIN NAME: ", name);
   console.log("LINKEDIN HEADLINE: ", headline);
   console.log("LINKEDIN PROFILE PATH: ", profilePath);
 
-  initStore();
-  store.update("linkedin", linkedin => {
-    linkedin.name = name;
-    linkedin.headline = headline;
-    linkedin.profilePath = profilePath;
-  });
-  console.log("LINKEDIN: ", store.get("linkedin"));
+  updateStore({ type: FEED, payload: { name, headline, profilePath } });
 };
 
 const scrapeProfile = () => {
-  initStore();
-  const profilePath = store.get(STORE_KEY).profilePath;
+  store.get(STORE_KEY, state => {
+    const profilePath = state.profilePath;
 
-  if (location.pathname === profilePath) {
-    const location = $("body")
-      .find(".pv-top-card-section__location")
-      .first()
-      .text()
-      .trim();
+    if (location.pathname === profilePath) {
+      const location = $("body")
+        .find(".pv-top-card-section__location")
+        .first()
+        .text()
+        .trim();
 
-    initStore();
-    store.update(STORE_KEY, linkedin => {
-      linkedin.location = location;
-    });
-    console.log("LINKEDIN: ", store.get(STORE_KEY));
-  }
+      updateStore({ type: PROFILE, payload: { location } });
+      console.log("LINKEDIN LOCATION: ", location);
+    }
+  });
 };
 
 export default {

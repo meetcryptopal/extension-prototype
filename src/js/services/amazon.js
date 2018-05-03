@@ -1,13 +1,34 @@
 import $ from "jquery";
-import store from "store";
-import allPlugins from "store/plugins/all";
 
-store.addPlugin(allPlugins);
-
+const store = window.chrome.storage.sync;
 const STORE_KEY = "amazon";
 
-const initStore = () => {
-  store.defaults({ [STORE_KEY]: { orders: [], cartItems: [] } });
+// Actions
+const CHECKOUT = "CHECKOUT";
+const ADD_ITEM = "ADD_ITEM";
+
+const initState = { order: [], cartItems: [] };
+const reduceState = (state = initState, { type, payload }) => {
+  switch (type) {
+    case ADD_ITEM:
+      return { ...state, cartItems: [...payload] };
+
+    case CHECKOUT:
+      return {
+        ...state,
+        orders: [...state.cartItems, ...state.orders],
+        cartItems: []
+      };
+  }
+};
+
+const updateStore = action => {
+  store.get(STORE_KEY, state => {
+    const nextState = reduceState(state, action);
+
+    store.set({ [STORE_KEY]: nextState });
+    console.log(`${STORE_KEY}: `, nextState);
+  });
 };
 
 const saveOnOrder = () => {
@@ -24,13 +45,7 @@ const saveOnOrder = () => {
 
   $("body").on("click", AMAZON_ORDER_BUTTON_SELECTOR, e => {
     console.log("AMAZON ORDER DETECTED");
-
-    initStore();
-    store.update(STORE_KEY, amazon => {
-      amazon.orders = [...amazon.orders, ...amazon.cartItems];
-      amazon.cartItems = [];
-    });
-    console.log("AMAZON: ", store.get(STORE_KEY));
+    updateStore({ type: CHECKOUT });
   });
 };
 
@@ -73,11 +88,7 @@ const scrapeCart = () => {
     };
   });
 
-  initStore();
-  store.update(STORE_KEY, amazon => {
-    amazon.cartItems = cartItems;
-  });
-  console.log("AMAZON: ", store.get(STORE_KEY));
+  updateStore({ type: ADD_ITEM, payload: cartItems });
 };
 
 export default {
