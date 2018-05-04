@@ -7,9 +7,7 @@ const styles = {
   container: {
     margin: "20px 10px 20px 10px",
     minWidth: "500px"
-    // display: "flex",
-    // justifyContent: "center",
-    // alignItems: "center"
+    // display: "flex", justifyContent: "center", alignItems: "center"
   },
   heading: {
     textAlign: "center",
@@ -25,12 +23,17 @@ const styles = {
 
 export default class extends React.Component {
   downloadData() {
-    window.chrome.storage.sync.get(null, data => {
-      console.log("DATA: ", data);
-      const dataJson = JSON.stringify(data);
-      var dataBlob = new Blob([dataJson], { type: "text/plain;charset=utf-8" });
-      FileSaver.saveAs(dataBlob, "cryptopal.txt");
-    });
+    window
+      .chrome
+      .storage
+      .sync
+      .get(null, data => {
+        console.log("DATA: ", data);
+        const exportedData = data || {};
+        const dataJson = JSON.stringify(data);
+        var dataBlob = new Blob([dataJson], {type: "text/plain;charset=utf-8"});
+        FileSaver.saveAs(dataBlob, "cryptopal.txt");
+      });
   }
 
   render() {
