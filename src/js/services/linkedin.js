@@ -1,4 +1,5 @@
 import $ from "jquery";
+import _ from "lodash";
 
 const store = window.chrome.storage.sync;
 const STORE_KEY = "linkedin";
@@ -23,7 +24,8 @@ const reduceState = (state = initState, { type, payload }) => {
 
 const updateStore = action => {
   store.get(STORE_KEY, state => {
-    const nextState = reduceState(state, action);
+    const currentState = _.isEmpty(state) ? undefined : state;
+    const nextState = reduceState(currentState, action);
 
     store.set({ [STORE_KEY]: nextState });
     console.log(`${STORE_KEY}: `, nextState);
