@@ -19,10 +19,8 @@ const styles = {
   content: {
     display: "flex",
     justifyContent: "center",
-    alignItems: "center"
-  },
-  btn: {
-    flex: "1"
+    alignItems: "center",
+    margin: 20
   }
 };
 
@@ -47,13 +45,15 @@ export default class extends React.Component {
     return (
       <div style={styles.container}>
         <h1 style={styles.heading}>CryptoPal</h1>
+
         <div style={styles.content}>
-          <button style={styles.btn} onClick={this.downloadData}>
-            Download Data
-          </button>
-          <button style={styles.btn} onClick={this.deleteData}>
-            Delete Data
-          </button>
+          <label htmlFor="">Private Key</label>
+          <input type="password" />
+          <button onClick={this.downloadData}>Download Data</button>
+        </div>
+
+        <div style={styles.content}>
+          <button onClick={this.deleteData}>Delete Data</button>
         </div>
       </div>
     );
