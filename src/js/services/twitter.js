@@ -2,7 +2,7 @@ import $ from "jquery";
 import _ from "lodash";
 
 const store = window.chrome.storage.sync;
-const STORE_KEY = "facebook";
+const STORE_KEY = "twitter";
 
 // Actions
 const LIKED = "LIKED";
