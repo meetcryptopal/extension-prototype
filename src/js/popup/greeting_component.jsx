@@ -1,6 +1,6 @@
 import React from "react";
-import FileSaver from "file-saver";
 
+import { downloadData } from "../storage/store";
 import icon from "../../img/icon-128.png";
 
 const store = window.chrome.storage.sync;
@@ -25,18 +25,8 @@ const styles = {
 };
 
 export default class extends React.Component {
-  downloadData() {
-    store.get(null, data => {
-      console.log("DATA: ", data);
-      const exportedData = data || {};
-      const dataJson = JSON.stringify(data);
-
-      // var dataBlob = new Blob([dataJson], { type: "text/plain;charset=utf-8" });
-      // FileSaver.saveAs(dataBlob, "cryptopal.txt");
-
-      var dataBlob = new Blob([dataJson], { type: "application/json" });
-      FileSaver.saveAs(dataBlob, "cryptopal.json");
-    });
+  download() {
+    downloadData();
   }
 
   deleteData() {
@@ -53,7 +43,7 @@ export default class extends React.Component {
         <div style={styles.content}>
           <label htmlFor="">Private Key</label>
           <input type="password" />
-          <button onClick={this.downloadData}>Download Data</button>
+          <button onClick={this.download}>Download Data</button>
         </div>
 
         <div style={styles.content}>
