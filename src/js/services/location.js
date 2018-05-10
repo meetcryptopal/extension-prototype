@@ -1,8 +1,6 @@
-const store = window.chrome.storage.sync;
-const STORE_KEY = "location";
+import { updateStore } from "../storage/store";
 
-// Actions
-const LOCATION = "LOCATION";
+const STORE_KEY = "location";
 
 const initState = { lat: null, lng: null };
 const reduceState = (state = initState, { type, payload }) => {
@@ -12,20 +10,16 @@ const reduceState = (state = initState, { type, payload }) => {
   }
 };
 
-const updateStore = action => {
-  store.get(STORE_KEY, state => {
-    const nextState = reduceState(state, action);
+const dispatch = updateStore(STORE_KEY, reduceState, initState);
 
-    store.set({ [STORE_KEY]: nextState });
-    console.log(`${STORE_KEY}: `, nextState);
-  });
-};
+// Actions
+const LOCATION = "LOCATION";
 
 const getCoordinates = () => {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(position => {
       const { coords: longitude, latitude } = position;
-      updateStore({
+      dispatch({
         type: LOCATION,
         payload: { lat: latitude, lng: longitude }
       });

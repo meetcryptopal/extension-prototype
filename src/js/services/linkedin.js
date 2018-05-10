@@ -1,12 +1,9 @@
 import $ from "jquery";
 import _ from "lodash";
 
-const store = window.chrome.storage.sync;
-const STORE_KEY = "linkedin";
+import { updateStore } from "../storage/store";
 
-// Actions
-const FEED = "FEED";
-const PROFILE = "PROFILE";
+const STORE_KEY = "linkedin";
 
 const initState = {
   name: null,
@@ -14,7 +11,7 @@ const initState = {
   profilePath: null,
   location: null
 };
-const reduceState = (state = initState, { type, payload }) => {
+const reduceState = (state, { type, payload }) => {
   switch (type) {
     case FEED:
     case PROFILE:
@@ -22,15 +19,11 @@ const reduceState = (state = initState, { type, payload }) => {
   }
 };
 
-const updateStore = action => {
-  store.get(STORE_KEY, state => {
-    const currentState = _.isEmpty(state) ? undefined : state;
-    const nextState = reduceState(currentState, action);
+const dispatch = updateStore(STORE_KEY, reduceState, initState);
 
-    store.set({ [STORE_KEY]: nextState });
-    console.log(`${STORE_KEY}: `, nextState);
-  });
-};
+// Actions
+const FEED = "FEED";
+const PROFILE = "PROFILE";
 
 const LINKEDIN_FEED_URL = "https://www.linkedin.com/feed/";
 
@@ -56,7 +49,7 @@ const scrapeFeed = () => {
   console.log("LINKEDIN HEADLINE: ", headline);
   console.log("LINKEDIN PROFILE PATH: ", profilePath);
 
-  updateStore({ type: FEED, payload: { name, headline, profilePath } });
+  dispatch({ type: FEED, payload: { name, headline, profilePath } });
 };
 
 const scrapeProfile = () => {
@@ -70,7 +63,7 @@ const scrapeProfile = () => {
         .text()
         .trim();
 
-      updateStore({ type: PROFILE, payload: { location } });
+      dispatch({ type: PROFILE, payload: { location } });
       console.log("LINKEDIN LOCATION: ", location);
     }
   });

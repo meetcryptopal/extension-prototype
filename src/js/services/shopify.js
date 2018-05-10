@@ -1,12 +1,9 @@
 import $ from "jquery";
 import _ from "lodash";
 
-const store = window.chrome.storage.sync;
-const STORE_KEY = "shopify";
+import { updateStore } from "../storage/store";
 
-// Actions
-const CHECKOUT = "CHECKOUT";
-const ADD_ITEM = "ADD_ITEM";
+const STORE_KEY = "shopify";
 
 const initState = { order: [], cartItems: [] };
 const reduceState = (state = initState, { type, payload }) => {
@@ -23,15 +20,11 @@ const reduceState = (state = initState, { type, payload }) => {
   }
 };
 
-const updateStore = action => {
-  store.get(STORE_KEY, state => {
-    const currentState = _.isEmpty(state) ? undefined : state;
-    const nextState = reduceState(currentState, action);
+const dispatch = updateStore(STORE_KEY, reduceState, initState);
 
-    store.set({ [STORE_KEY]: nextState });
-    console.log(`${STORE_KEY}: `, nextState);
-  });
-};
+// Actions
+const CHECKOUT = "CHECKOUT";
+const ADD_ITEM = "ADD_ITEM";
 
 const saveOnOrder = () => {
   const SHOPIFY_API_TOKEN_SELECTOR = "meta[name=shopify-checkout-api-token]";
@@ -48,7 +41,7 @@ const saveOnOrder = () => {
     $("body").on("click", SHOPIFY_ORDER_BUTTON_SELECTOR, e => {
       console.log("SHOPIFY ORDER DETECTED");
 
-      updateStore({ type: CHECKOUT });
+      dispatch({ type: CHECKOUT });
     });
   }
 };
@@ -97,7 +90,7 @@ const scrapeCheckout = () => {
       };
     });
 
-    updateStore({ type: ADD_ITEM, payload: cartItems });
+    dispatch({ type: ADD_ITEM, payload: cartItems });
   }
 };
 

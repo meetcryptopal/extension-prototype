@@ -1,12 +1,9 @@
 import $ from "jquery";
 import _ from "lodash";
 
-const store = window.chrome.storage.sync;
-const STORE_KEY = "twitter";
+import { updateStore } from "../storage/store";
 
-// Actions
-const LIKED = "LIKED";
-const RETWEET = "RETWEET";
+const STORE_KEY = "twitter";
 
 const initState = { likedPosts: [], retweetedPosts: [] };
 const reduceState = (state = initState, { type, payload }) => {
@@ -18,15 +15,11 @@ const reduceState = (state = initState, { type, payload }) => {
   }
 };
 
-const updateStore = action => {
-  store.get(STORE_KEY, state => {
-    const currentState = _.isEmpty(state) ? undefined : state;
-    const nextState = reduceState(currentState, action);
+const dispatch = updateStore(STORE_KEY, reduceState, initState);
 
-    store.set({ [STORE_KEY]: nextState });
-    console.log(`${STORE_KEY}: `, nextState);
-  });
-};
+// Actions
+const LIKED = "LIKED";
+const RETWEET = "RETWEET";
 
 const trackLikes = () => {
   const TWITTER_DOMAIN = "https://twitter.com/";
@@ -83,7 +76,7 @@ const trackLikes = () => {
     console.log("TWITTER RETWEETED USER HANDLE: ", handle);
     console.log("TWITTER RETWEETED CONTENT: ", content);
 
-    updateStore({ type: RETWEET, payload: retweetedPost });
+    dispatch({ type: RETWEET, payload: retweetedPost });
   });
 
   // liking
@@ -120,7 +113,7 @@ const trackLikes = () => {
     console.log("TWITTER LIKED USER HANDLE: ", handle);
     console.log("TWITTER LIKED CONTENT: ", content);
 
-    updateStore({ type: LIKED, payload: likedPost });
+    dispatch({ type: LIKED, payload: likedPost });
   });
 };
 

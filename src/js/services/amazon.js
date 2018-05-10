@@ -1,15 +1,12 @@
 import $ from "jquery";
 import _ from "lodash";
 
-const store = window.chrome.storage.sync;
+import { updateStore } from "../storage/store";
+
 const STORE_KEY = "amazon";
 
-// Actions
-const CHECKOUT = "CHECKOUT";
-const ADD_ITEM = "ADD_ITEM";
-
 const initState = { order: [], cartItems: [] };
-const reduceState = (state = initState, { type, payload }) => {
+const reduceState = (state, { type, payload }) => {
   switch (type) {
     case ADD_ITEM:
       return { ...state, cartItems: [...payload] };
@@ -23,15 +20,11 @@ const reduceState = (state = initState, { type, payload }) => {
   }
 };
 
-const updateStore = action => {
-  store.get(STORE_KEY, state => {
-    const currentState = _.isEmpty(state) ? undefined : state;
-    const nextState = reduceState(currentState, action);
+const dispatch = updateStore(STORE_KEY, reduceState, initState);
 
-    store.set({ [STORE_KEY]: nextState });
-    console.log(`${STORE_KEY}: `, nextState);
-  });
-};
+// Actions
+const CHECKOUT = "CHECKOUT";
+const ADD_ITEM = "ADD_ITEM";
 
 const saveOnOrder = () => {
   const AMAZON_CHECKOUT_URL =
@@ -47,7 +40,7 @@ const saveOnOrder = () => {
 
   $("body").on("click", AMAZON_ORDER_BUTTON_SELECTOR, e => {
     console.log("AMAZON ORDER DETECTED");
-    updateStore({ type: CHECKOUT });
+    dispatch({ type: CHECKOUT });
   });
 };
 
@@ -90,7 +83,7 @@ const scrapeCart = () => {
     };
   });
 
-  updateStore({ type: ADD_ITEM, payload: cartItems });
+  dispatch({ type: ADD_ITEM, payload: cartItems });
 };
 
 export default {

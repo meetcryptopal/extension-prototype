@@ -1,11 +1,9 @@
 import $ from "jquery";
 import _ from "lodash";
 
-const store = window.chrome.storage.sync;
-const STORE_KEY = "facebook";
+import { updateStore } from "../storage/store";
 
-// Actions
-const LIKED = "LIKED";
+const STORE_KEY = "facebook";
 
 const initState = { likedPosts: [] };
 const reduceState = (state = initState, { type, payload }) => {
@@ -17,15 +15,10 @@ const reduceState = (state = initState, { type, payload }) => {
   }
 };
 
-const updateStore = action => {
-  store.get(STORE_KEY, state => {
-    const currentState = _.isEmpty(state) ? undefined : state;
-    const nextState = reduceState(currentState, action);
+const dispatch = updateStore(STORE_KEY, reduceState, initState);
 
-    store.set({ [STORE_KEY]: nextState });
-    console.log(`${STORE_KEY}: `, nextState);
-  });
-};
+// Actions
+const LIKED = "LIKED";
 
 const trackLikes = () => {
   // TODO: This should be filtered from manifest.json
@@ -68,7 +61,7 @@ const trackLikes = () => {
     console.log("FACEBOOK LIKED HREF: ", href);
     console.log("FACEBOOK LIKED ANCHOR TEXT: ", anchorText);
 
-    updateStore({ type: LIKED, payload: likedPost });
+    dispatch({ type: LIKED, payload: likedPost });
   });
 };
 
