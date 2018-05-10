@@ -25,14 +25,23 @@ const styles = {
 };
 
 export default class extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { key: "" };
+  }
+
   download() {
-    downloadData();
+    downloadData(this.state.key);
   }
 
   deleteData() {
     store.clear(() => {
       console.log("Delete successful");
     });
+  }
+
+  updateKey({ target: { value } }) {
+    this.setState({ key: value });
   }
 
   render() {
@@ -42,8 +51,8 @@ export default class extends React.Component {
 
         <div style={styles.content}>
           <label htmlFor="">Private Key</label>
-          <input type="password" />
-          <button onClick={this.download}>Download Data</button>
+          <input type="password" onChange={this.updateKey.bind(this)} />
+          <button onClick={this.download.bind(this)}>Download Data</button>
         </div>
 
         <div style={styles.content}>

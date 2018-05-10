@@ -13,7 +13,10 @@ const store = window.chrome.storage.sync;
 export const updateStore = (key, reducer, initState = {}) => action => {
   store.get(null, storedData => {
     // Decrypt.
-    let state = decrypt(storedData[ROOT_KEY], PW);
+
+    let encryptedData = storedData[ROOT_KEY];
+    encryptedData = isEmptyState(encryptedData) ? "" : encryptedData;
+    let state = decrypt(encryptedData, PW);
     state = isEmptyState(state) ? {} : JSON.parse(state);
 
     // Reduce state.
@@ -37,7 +40,7 @@ export const downloadData = (key = "") => {
     try {
       state = decrypt(storedData[ROOT_KEY], key);
     } catch (error) {
-      console.log(error);
+      console.log("Decrypt error: ", error);
     }
 
     state = isEmptyState(state) ? ERR_JSON : state;
