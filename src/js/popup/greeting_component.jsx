@@ -52,7 +52,16 @@ export default class extends React.Component {
         <div style={styles.content}>
           <label htmlFor="">Private Key</label>
           <input type="password" onChange={this.updateKey.bind(this)} />
-          <button onClick={this.download.bind(this)}>Download Data</button>
+          <button onClick={this.download.bind(this)}>Download Data JSON</button>
+          <button onClick={this.download.bind(this)}>
+            Download Amazon Orders
+          </button>
+          <button onClick={this.download.bind(this)}>Download Facebook</button>
+          <button onClick={this.download.bind(this)}>Download LinkedIn</button>
+          <button onClick={this.download.bind(this)}>Download Location</button>
+          <button onClick={this.download.bind(this)}>Download Shopify</button>
+          <button onClick={this.download.bind(this)}>Download Twitter</button>
+          <button onClick={this.download.bind(this)}>Download Twitter</button>
         </div>
 
         <div style={styles.content}>

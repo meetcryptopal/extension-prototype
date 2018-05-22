@@ -1,4 +1,5 @@
 import FileSaver from "file-saver";
+import json2csv from "json2csv";
 
 import { encrypt, decrypt } from "./encryption";
 
@@ -33,7 +34,22 @@ export const updateStore = (key, reducer, initState = {}) => action => {
   });
 };
 
-export const downloadData = (key = "") => {
+const downloadJson = data => {
+  console.log("DATA", data);
+  data = isEmptyState(data) ? ERR_JSON : data;
+  console.log("DATA", data);
+
+  // Hack to prettify.
+  data = JSON.stringify(JSON.parse(data), null, 2);
+
+  var dataBlob = new Blob([data], { type: "application/json" });
+  FileSaver.saveAs(dataBlob, "cryptopal.json");
+};
+
+const fetchState = (key, cb, errCb) => {
+  // TODO: DELETE THIS
+  key = PW;
+
   store.get(null, storedData => {
     // Decrypt.
     let state;
@@ -43,14 +59,41 @@ export const downloadData = (key = "") => {
       console.log("Decrypt error: ", error);
     }
 
-    state = isEmptyState(state) ? ERR_JSON : state;
-
-    // Hack to prettify.
-    state = JSON.stringify(JSON.parse(state), null, 2);
-
-    var dataBlob = new Blob([state], { type: "application/json" });
-    FileSaver.saveAs(dataBlob, "cryptopal.json");
+    if (isEmptyState(state)) return errCb(state);
+    return cb(state);
   });
+};
+
+export const downloadData = (key = "") => {
+  fetchState(key, downloadJson, downloadJson);
+};
+
+// CSV
+const downloadCsv = data => {
+  var dataBlob = new Blob([data], { type: "text/csv" });
+  FileSaver.saveAs(dataBlob, "cryptopal.json");
+};
+
+export const downloadAmazonOrders = (key = "") => {
+  console.log("AMAZON");
+  fetchState(key, state => downloadCsv(ordersCsv(state)), downloadJson);
+};
+
+// CSV Mapping
+// TODO: Move this somewhere else?
+
+const ordersCsv = state => {
+  const orders = (state && state["amazon"] && state["amazon"].orders) || [];
+  const fields = ["name", "quantity", "price"];
+  const opts = { fields };
+
+  const data = orders.map(o => ({
+    name: o.productName,
+    quantity: o.productQuantity,
+    price: o.productPrice
+  }));
+
+  return json2csv.parse(data, opts);
 };
 
 // Private
