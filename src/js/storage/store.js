@@ -45,8 +45,8 @@ const downloadJson = data => {
 };
 
 const fetchState = (key, cb, errCb) => {
-  // TODO: DELETE THIS
-  key = PW;
+  // Uncomment for debugging
+  // key = PW;
 
   store.get(null, storedData => {
     // Decrypt.
