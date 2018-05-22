@@ -3,7 +3,8 @@ import React from "react";
 import {
   downloadData,
   downloadAmazonOrders,
-  downloadBrowsing
+  downloadBrowsing,
+  downloadShopifyOrders
 } from "../storage/store";
 import icon from "../../img/icon-128.png";
 
@@ -48,6 +49,10 @@ export default class extends React.Component {
     downloadBrowsing(this.state.key);
   }
 
+  shopifyOrders() {
+    downloadShopifyOrders(this.state.key);
+  }
+
   // CSV END
 
   deleteData() {
@@ -76,6 +81,9 @@ export default class extends React.Component {
           </button>
           <button onClick={this.browsingData.bind(this)}>
             Download Browsing History
+          </button>
+          <button onClick={this.shopifyOrders.bind(this)}>
+            Download Shopify
           </button>
           {/*
           <button onClick={this.download.bind(this)}>Download LinkedIn</button>

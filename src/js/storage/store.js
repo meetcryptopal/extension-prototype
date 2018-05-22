@@ -35,9 +35,7 @@ export const updateStore = (key, reducer, initState = {}) => action => {
 };
 
 const downloadJson = data => {
-  console.log("DATA", data);
   data = isEmptyState(data) ? ERR_JSON : data;
-  console.log("DATA", data);
 
   // Hack to prettify.
   data = JSON.stringify(data, null, 2);
@@ -82,6 +80,8 @@ export const downloadAmazonOrders = (key = "") =>
   fetchAndParse(key, ordersCsv, "cryptopal-amazon.csv");
 export const downloadBrowsing = (key = "") =>
   fetchAndParse(key, browsingCsv, "cryptopal-browsing-history.csv");
+export const downloadShopifyOrders = (key = "") =>
+  fetchAndParse(key, ordersCsv, "cryptopal-shopify.csv");
 
 // CSV Mapping
 // TODO: Move this somewhere else?
@@ -108,6 +108,20 @@ const browsingCsv = state => {
   const opts = { fields };
 
   return json2csv.parse(sites, opts);
+};
+
+const shopifyCsv = state => {
+  const orders = getState(state, "shopify").orders || [];
+  const fields = ["name", "quantity", "price"];
+  const opts = { fields };
+
+  const data = orders.map(o => ({
+    name: o.productName,
+    quantity: o.productQuantity,
+    price: o.productPrice
+  }));
+
+  return json2csv.parse(data, opts);
 };
 
 // Private
