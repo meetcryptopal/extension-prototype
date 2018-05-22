@@ -81,7 +81,7 @@ export const downloadAmazonOrders = (key = "") =>
 export const downloadBrowsing = (key = "") =>
   fetchAndParse(key, browsingCsv, "cryptopal-browsing-history.csv");
 export const downloadShopifyOrders = (key = "") =>
-  fetchAndParse(key, ordersCsv, "cryptopal-shopify.csv");
+  fetchAndParse(key, shopifyCsv, "cryptopal-shopify.csv");
 
 // CSV Mapping
 // TODO: Move this somewhere else?
