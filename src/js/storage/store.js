@@ -82,6 +82,8 @@ export const downloadBrowsing = (key = "") =>
   fetchAndParse(key, browsingCsv, "cryptopal-browsing-history.csv");
 export const downloadShopifyOrders = (key = "") =>
   fetchAndParse(key, shopifyCsv, "cryptopal-shopify.csv");
+export const downloadFacebookLikes = (key = "") =>
+  fetchAndParse(key, facebookLikesCsv, "cryptopal-facebook-likes.csv");
 
 // CSV Mapping
 // TODO: Move this somewhere else?
@@ -122,6 +124,14 @@ const shopifyCsv = state => {
   }));
 
   return json2csv.parse(data, opts);
+};
+
+const facebookLikesCsv = state => {
+  const likedPosts = getState(state, "facebook").likedPosts || [];
+  const fields = ["username", "anchorText", "href", "content"];
+  const opts = { fields };
+
+  return json2csv.parse(likedPosts, opts);
 };
 
 // Private

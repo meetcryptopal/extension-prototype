@@ -7,8 +7,6 @@ const STORE_KEY = "facebook";
 
 const initState = { likedPosts: [] };
 const reduceState = (state = initState, { type, payload }) => {
-  console.log("xxxxxx: ", state);
-  console.log("payload: ", payload);
   switch (type) {
     case LIKED:
       return { ...state, likedPosts: [payload, ...state.likedPosts] };
