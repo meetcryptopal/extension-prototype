@@ -103,11 +103,7 @@ const ordersCsv = state => {
 };
 
 const browsingCsv = state => {
-  console.log("STATE", state);
-  console.log("history", state["history"]);
-
   const sites = getState(state, "history").sites || [];
-  console.log("DATA", sites);
   const fields = ["title", "url"];
   const opts = { fields };
 
