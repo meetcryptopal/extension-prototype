@@ -84,6 +84,8 @@ export const downloadShopifyOrders = (key = "") =>
   fetchAndParse(key, shopifyCsv, "cryptopal-shopify.csv");
 export const downloadFacebookLikes = (key = "") =>
   fetchAndParse(key, facebookLikesCsv, "cryptopal-facebook-likes.csv");
+export const downloadTwitterLikes = (key = "") =>
+  fetchAndParse(key, twitterLikesCsv, "cryptopal-twitter-likes.csv");
 
 // CSV Mapping
 // TODO: Move this somewhere else?
@@ -129,6 +131,14 @@ const shopifyCsv = state => {
 const facebookLikesCsv = state => {
   const likedPosts = getState(state, "facebook").likedPosts || [];
   const fields = ["username", "anchorText", "href", "content"];
+  const opts = { fields };
+
+  return json2csv.parse(likedPosts, opts);
+};
+
+const twitterLikesCsv = state => {
+  const likedPosts = getState(state, "twitter").likedPosts || [];
+  const fields = ["handle", "username", "content"];
   const opts = { fields };
 
   return json2csv.parse(likedPosts, opts);

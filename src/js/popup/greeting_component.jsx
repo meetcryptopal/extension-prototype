@@ -5,7 +5,8 @@ import {
   downloadBrowsing,
   downloadData,
   downloadFacebookLikes,
-  downloadShopifyOrders
+  downloadShopifyOrders,
+  downloadTwitterLikes
 } from "../storage/store";
 import icon from "../../img/icon-128.png";
 
@@ -58,6 +59,10 @@ export default class extends React.Component {
     downloadFacebookLikes(this.state.key);
   }
 
+  twitterLikes() {
+    downloadTwitterLikes(this.state.key);
+  }
+
   // CSV END
 
   deleteData() {
@@ -93,6 +98,10 @@ export default class extends React.Component {
           <button onClick={this.facebookLikes.bind(this)}>
             Download Facebook Likes
           </button>
+          <button onClick={this.twitterLikes.bind(this)}>
+            Download Twitter Likes
+          </button>
+
           {/*
           <button onClick={this.download.bind(this)}>Download LinkedIn</button>
           <button onClick={this.download.bind(this)}>Download Location</button>
