@@ -1,7 +1,7 @@
 import $ from "jquery";
 import _ from "lodash";
 
-import { updateStore } from "../storage/store";
+import { updateStore, store } from "../storage/store";
 
 const STORE_KEY = "linkedin";
 
