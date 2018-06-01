@@ -1,9 +1,15 @@
 import $ from "jquery";
+import Raven from "raven-js";
+
 import LinkedIn from "./services/linkedin";
 import Shopify from "./services/shopify";
 import Amazon from "./services/amazon";
 import Twitter from "./services/twitter";
 import Facebook from "./services/facebook";
+
+Raven.config(
+  "https://30f178f4606a43efb7a9d9a844909469@sentry.io/1217951"
+).install();
 
 const scrape = () => {
   Amazon.scrapeCart();
@@ -17,11 +23,13 @@ const scrape = () => {
   LinkedIn.scrapeProfile();
 };
 
-$(function() {
-  console.log("CRYPTOPAL LOADED");
+Raven.context(() => {
+  $(function() {
+    console.log("CRYPTOPAL LOADED");
 
-  // on initial load + for full page refreshess
-  $(window).on("load", () => {
-    scrape();
+    // on initial load + for full page refreshess
+    $(window).on("load", () => {
+      scrape();
+    });
   });
 });
