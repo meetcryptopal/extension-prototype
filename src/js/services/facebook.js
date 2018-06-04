@@ -35,7 +35,7 @@ const trackLikes = () => {
 
     const username = $likeBtn
       .closest(".userContentWrapper")
-      .find(".fwb")
+      .find(".fwb a")
       .text();
 
     const href = $likeBtn

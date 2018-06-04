@@ -9,7 +9,7 @@ const ROOT_KEY = "ROOT-KEY";
 const PW = "cryptopal";
 const ERR_JSON = { error: "Incorrect Private Key" };
 
-export const store = window.chrome.storage.sync;
+export const store = window.chrome.storage.local;
 
 export const updateStore = (key, reducer, initState = {}) => action => {
   store.get(null, storedData => {
