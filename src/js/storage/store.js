@@ -34,28 +34,36 @@ export const updateStore = (key, reducer, initState = {}) => action => {
   });
 };
 
-const downloadJson = data => {
-  data = isEmptyState(data) ? ERR_JSON : data;
+const downloadJson = (data, opts) => {
+  opts = opts || {};
+  const errJson = opts.raw ? { error: "no data" } : ERR_JSON;
+
+  data = isEmptyState(data) ? errJson : data;
 
   // Hack to prettify.
   data = JSON.stringify(data, null, 2);
 
   var dataBlob = new Blob([data], { type: "application/json" });
-  FileSaver.saveAs(dataBlob, "cryptopal.json");
+  FileSaver.saveAs(dataBlob, `cryptopal${opts.raw ? "-encrypted" : ""}.json`);
 };
 
-const fetchState = (key, cb, errCb) => {
+const fetchState = (key, cb, errCb, opts) => {
+  opts = opts || {};
   // Uncomment for debugging
   // key = PW;
 
   store.get(null, storedData => {
-    // Decrypt.
-    let state;
-    try {
-      state = decrypt(storedData[ROOT_KEY], key);
-      state = JSON.parse(state);
-    } catch (error) {
-      console.log("Decrypt error: ", error);
+    let state = storedData[ROOT_KEY];
+    console.log("RAW", storedData);
+
+    if (!opts.raw) {
+      // Decrypt.
+      try {
+        state = decrypt(state, key);
+        state = JSON.parse(state);
+      } catch (error) {
+        console.log("Decrypt error: ", error);
+      }
     }
 
     if (isEmptyState(state)) return errCb(state);
@@ -65,6 +73,11 @@ const fetchState = (key, cb, errCb) => {
 
 export const downloadData = (key = "") => {
   fetchState(key, downloadJson, downloadJson);
+};
+
+export const downloadDataRaw = () => {
+  const downloadJsonRaw = data => downloadJson(data, { raw: true });
+  fetchState(null, downloadJsonRaw, downloadJsonRaw, { raw: true });
 };
 
 // CSV

@@ -4,6 +4,7 @@ import {
   downloadAmazonOrders,
   downloadBrowsing,
   downloadData,
+  downloadDataRaw,
   downloadFacebookLikes,
   downloadShopifyOrders,
   downloadTwitterLikes,
@@ -40,6 +41,10 @@ export default class extends React.Component {
 
   downloadJson() {
     downloadData(this.state.key);
+  }
+
+  downloadEncrypted() {
+    downloadDataRaw();
   }
 
   // CSV
@@ -88,6 +93,9 @@ export default class extends React.Component {
         <div style={styles.content}>
           <label htmlFor="">Private Key</label>
           <input type="password" onChange={this.updateKey.bind(this)} />
+          <button onClick={this.downloadEncrypted}>
+            Download Encrypted Data
+          </button>
           <button onClick={this.downloadJson.bind(this)}>
             Download Data JSON
           </button>
