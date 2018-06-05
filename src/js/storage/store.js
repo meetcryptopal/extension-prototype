@@ -1,4 +1,5 @@
 import FileSaver from "file-saver";
+import JSZip from "jszip";
 import json2csv from "json2csv";
 
 import { encrypt, decrypt } from "./encryption";
@@ -82,12 +83,37 @@ export const downloadDataRaw = () => {
 
 // CSV
 const downloadCsv = (data, filename) => {
-  var dataBlob = new Blob([data], { type: "text/csv" });
+  const dataBlob = new Blob([data], { type: "text/csv" });
   FileSaver.saveAs(dataBlob, `${filename}.csv`);
 };
 
+const zipCsv = (zip, data, filename) => {
+  const dataBlob = new Blob([data], { type: "text/csv" });
+  zip.file(filename, dataBlob);
+};
+
+const fetchAndZip = (zip, key, adapter, filename) => {
+  fetchState(key, state => zipCsv(zip, adapter(state), filename), downloadJson);
+};
+
 const fetchAndParse = (key, adapter, filename) =>
-  fetchState(key, state => downloadCsv(adapter(state)), filename, downloadJson);
+  fetchState(key, state => downloadCsv(adapter(state), filename), downloadJson);
+
+export const zipAll = (key = "") => {
+  const zip = new JSZip();
+  [
+    [ordersCsv, "cryptopal-amazon.csv"],
+    [browsingCsv, "cryptopal-browsing-history.csv"],
+    [shopifyCsv, "cryptopal-shopify.csv"],
+    [facebookLikesCsv, "cryptopal-facebook-likes.csv"],
+    [twitterLikesCsv, "cryptopal-twitter-likes.csv"],
+    [twitterLikesCsv, "cryptopal-twitter-retweets.csv"]
+  ].forEach(([adapter, filename]) => fetchAndZip(zip, key, adapter, filename));
+
+  zip
+    .generateAsync({ type: "blob" })
+    .then(content => FileSaver.saveAs(content, "cryptopal.zip"));
+};
 
 export const downloadAmazonOrders = (key = "") =>
   fetchAndParse(key, ordersCsv, "cryptopal-amazon.csv");

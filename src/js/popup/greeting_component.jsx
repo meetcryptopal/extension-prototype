@@ -8,7 +8,8 @@ import {
   downloadFacebookLikes,
   downloadShopifyOrders,
   downloadTwitterLikes,
-  downloadTwitterRetweets
+  downloadTwitterRetweets,
+  zipAll
 } from "../storage/store";
 import icon from "../../img/icon-128.png";
 
@@ -45,6 +46,10 @@ export default class extends React.Component {
 
   downloadEncrypted() {
     downloadDataRaw();
+  }
+
+  downloadCsvs() {
+    zipAll(this.state.key);
   }
 
   // CSV
@@ -98,6 +103,9 @@ export default class extends React.Component {
           </button>
           <button onClick={this.downloadJson.bind(this)}>
             Download Data JSON
+          </button>
+          <button onClick={this.downloadCsvs.bind(this)}>
+            Download Data CSVs
           </button>
           <button onClick={this.amazonOrders.bind(this)}>
             Download Amazon Orders
