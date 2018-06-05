@@ -9,11 +9,12 @@ import {
   downloadShopifyOrders,
   downloadTwitterLikes,
   downloadTwitterRetweets,
-  zipAll
+  zipAll,
+  checkOrGenPass
 } from "../storage/store";
 import icon from "../../img/icon-128.png";
 
-const store = window.chrome.storage.sync;
+const store = window.chrome.storage.local;
 
 const styles = {
   container: {
@@ -38,6 +39,13 @@ export default class extends React.Component {
   constructor(props) {
     super(props);
     this.state = { key: "" };
+
+    checkOrGenPass(pw => {
+      if (pw)
+        return window.alert(
+          `WARNING: Remember to keep this safe. If this is lost, you will lose access to your data!\n\nPRIVATE KEY:\n\n${pw}`
+        );
+    });
   }
 
   downloadJson() {

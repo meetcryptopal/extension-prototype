@@ -1,10 +1,12 @@
 import FileSaver from "file-saver";
 import JSZip from "jszip";
 import json2csv from "json2csv";
+import bip39 from "bip39";
 
 import { encrypt, decrypt } from "./encryption";
 
 const ROOT_KEY = "ROOT-KEY";
+const PW_KEY = "PW-KEY";
 
 // TODO: Make this dynamic.
 const PW = "cryptopal";
@@ -12,13 +14,27 @@ const ERR_JSON = { error: "Incorrect Private Key" };
 
 export const store = window.chrome.storage.local;
 
+export const checkOrGenPass = cb => {
+  console.log("INSIDE", store);
+  store.get(PW_KEY, state => {
+    const pw = state[PW_KEY];
+    console.log("PASSWORD: ", pw);
+    if (!isEmptyState(pw)) return cb(null); // already set.
+
+    // YOLO, going to alert here!
+    const genPw = bip39.generateMnemonic();
+    console.log(genPw);
+    store.set({ [PW_KEY]: genPw }, () => cb(genPw));
+  });
+};
+
 export const updateStore = (key, reducer, initState = {}) => action => {
   store.get(null, storedData => {
+    const pass = storedData[PW_KEY];
     // Decrypt.
-
     let encryptedData = storedData[ROOT_KEY];
     encryptedData = isEmptyState(encryptedData) ? "" : encryptedData;
-    let state = decrypt(encryptedData, PW);
+    let state = decrypt(encryptedData, pass);
     state = isEmptyState(state) ? {} : JSON.parse(state);
 
     // Reduce state.
@@ -28,7 +44,7 @@ export const updateStore = (key, reducer, initState = {}) => action => {
     console.log(key, state);
 
     // Encrypt.
-    const encryptedNextState = encrypt(JSON.stringify(state), PW);
+    const encryptedNextState = encrypt(JSON.stringify(state), pass);
 
     // Update store.
     store.set({ [ROOT_KEY]: encryptedNextState });
