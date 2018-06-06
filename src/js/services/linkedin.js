@@ -1,7 +1,12 @@
 import $ from "jquery";
 import _ from "lodash";
 
-import { updateStore, store } from "../storage/store";
+import {
+  updateStore,
+  store,
+  fetchState,
+  checkOrGenPass
+} from "../storage/store";
 
 const STORE_KEY = "linkedin";
 
@@ -53,19 +58,21 @@ const scrapeFeed = () => {
 };
 
 const scrapeProfile = () => {
-  store.get(STORE_KEY, state => {
-    const profilePath = state.profilePath;
+  checkOrGenPass(pw => {
+    fetchState(pw, state => {
+      const profilePath = state[STORE_KEY] && state[STORE_KEY].profilePath;
 
-    if (location.pathname === profilePath) {
-      const location = $("body")
-        .find(".pv-top-card-section__location")
-        .first()
-        .text()
-        .trim();
+      if (!!profilePath && location.pathname === profilePath) {
+        const location = $("body")
+          .find(".pv-top-card-section__location")
+          .first()
+          .text()
+          .trim();
 
-      dispatch({ type: PROFILE, payload: { location } });
-      console.log("LINKEDIN LOCATION: ", location);
-    }
+        dispatch({ type: PROFILE, payload: { location } });
+        console.log("LINKEDIN LOCATION: ", location);
+      }
+    });
   });
 };
 

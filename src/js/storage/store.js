@@ -19,7 +19,7 @@ export const checkOrGenPass = cb => {
   store.get(PW_KEY, state => {
     const pw = state[PW_KEY];
     console.log("PASSWORD: ", pw);
-    if (!isEmptyState(pw)) return cb(null); // already set.
+    if (!isEmptyState(pw)) return cb(pw); // already set.
 
     // YOLO, going to alert here!
     const genPw = bip39.generateMnemonic();
@@ -64,7 +64,7 @@ const downloadJson = (data, opts) => {
   FileSaver.saveAs(dataBlob, `cryptopal${opts.raw ? "-encrypted" : ""}.json`);
 };
 
-const fetchState = (key, cb, errCb, opts) => {
+export const fetchState = (key, cb, errCb, opts) => {
   opts = opts || {};
   // Uncomment for debugging
   // key = PW;
@@ -73,7 +73,7 @@ const fetchState = (key, cb, errCb, opts) => {
     let state = storedData[ROOT_KEY];
     console.log("RAW", storedData);
 
-    if (!opts.raw) {
+    if (!opts.raw && !isEmptyState(state)) {
       // Decrypt.
       try {
         state = decrypt(state, key);
@@ -83,8 +83,7 @@ const fetchState = (key, cb, errCb, opts) => {
       }
     }
 
-    if (isEmptyState(state)) return errCb(state);
-    return cb(state);
+    return cb(!!state ? state : {});
   });
 };
 
