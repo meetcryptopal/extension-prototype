@@ -14,21 +14,25 @@ const ERR_JSON = { error: "Incorrect Private Key" };
 
 export const store = window.chrome.storage.local;
 
+export const loadPass = cb => {
+  console.log("INSIDE", store);
+  store.get(PW_KEY, state => {
+    const pw = state[PW_KEY];
+    console.log("PASSWORD: ", pw);
+    if (!isEmptyState(pw)) return cb(pw, false); // only call callback if password exists. otherwise, do nothing
+  });
+};
+
 export const checkOrGenPass = cb => {
   console.log("INSIDE", store);
   store.get(PW_KEY, state => {
     const pw = state[PW_KEY];
     console.log("PASSWORD: ", pw);
-    if (!isEmptyState(pw)) return cb(pw); // already set.
+    if (!isEmptyState(pw)) return cb(pw, false); // already set.
 
     const genPw = bip39.generateMnemonic();
 
-    // YOLO, going to alert here!
-    window.alert(
-      `WARNING: Remember to keep this safe. If this is lost, you will lose access to your data!\n\nPRIVATE KEY:\n\n${genPw}`
-    );
-
-    store.set({ [PW_KEY]: genPw }, () => cb(genPw));
+    store.set({ [PW_KEY]: genPw }, () => cb(genPw, true));
   });
 };
 
@@ -190,7 +194,7 @@ const shopifyCsv = state => {
 
 const facebookLikesCsv = state => {
   const likedPosts = getState(state, "facebook").likedPosts || [];
-  const fields = ["username", "anchorText", "href", "content"];
+  const fields = ["username", "anchorText", "href", "content", "mediaHref"];
   const opts = { fields };
 
   return json2csv.parse(likedPosts, opts);

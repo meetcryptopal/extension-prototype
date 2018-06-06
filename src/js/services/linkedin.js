@@ -1,12 +1,7 @@
 import $ from "jquery";
 import _ from "lodash";
 
-import {
-  updateStore,
-  store,
-  fetchState,
-  checkOrGenPass
-} from "../storage/store";
+import { updateStore, store, fetchState, loadPass } from "../storage/store";
 
 const STORE_KEY = "linkedin";
 
@@ -30,6 +25,7 @@ const dispatch = updateStore(STORE_KEY, reduceState, initState);
 const FEED = "FEED";
 const PROFILE = "PROFILE";
 
+const LINKEDIN_DOMAIN = "www.linkedin.com";
 const LINKEDIN_FEED_URL = "https://www.linkedin.com/feed/";
 
 const scrapeFeed = () => {
@@ -58,7 +54,11 @@ const scrapeFeed = () => {
 };
 
 const scrapeProfile = () => {
-  checkOrGenPass(pw => {
+  if (!location.href.includes(LINKEDIN_DOMAIN)) {
+    return;
+  }
+
+  loadPass(pw => {
     fetchState(pw, state => {
       const profilePath = state[STORE_KEY] && state[STORE_KEY].profilePath;
 

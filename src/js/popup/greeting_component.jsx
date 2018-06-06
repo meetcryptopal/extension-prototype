@@ -38,9 +38,15 @@ const styles = {
 export default class extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { key: "" };
+    this.state = { key: "", newPw: null };
+  }
 
-    checkOrGenPass(pw => {});
+  componentDidMount() {
+    checkOrGenPass((pw, isNewPw) => {
+      if (isNewPw) {
+        this.setState({ newPw: pw });
+      }
+    });
   }
 
   downloadJson() {
@@ -94,53 +100,66 @@ export default class extends React.Component {
   }
 
   render() {
-    return (
-      <div style={styles.container}>
-        <h1 style={styles.heading}>CryptoPal</h1>
-
-        <div style={styles.content}>
-          <label htmlFor="">Private Key</label>
-          <input type="password" onChange={this.updateKey.bind(this)} />
-          <button onClick={this.downloadEncrypted}>
-            Download Encrypted Data
-          </button>
-          <button onClick={this.downloadJson.bind(this)}>
-            Download Data JSON
-          </button>
-          <button onClick={this.downloadCsvs.bind(this)}>
-            Download Data CSVs
-          </button>
-          <button onClick={this.amazonOrders.bind(this)}>
-            Download Amazon Orders
-          </button>
-          <button onClick={this.browsingData.bind(this)}>
-            Download Browsing History
-          </button>
-          <button onClick={this.shopifyOrders.bind(this)}>
-            Download Shopify
-          </button>
-          <button onClick={this.facebookLikes.bind(this)}>
-            Download Facebook Likes
-          </button>
-          <button onClick={this.twitterLikes.bind(this)}>
-            Download Twitter Likes
-          </button>
-          <button onClick={this.twitterRetweets.bind(this)}>
-            Download Twitter Retweets
-          </button>
-
-          {/*
-          <button onClick={this.download.bind(this)}>Download LinkedIn</button>
-          <button onClick={this.download.bind(this)}>Download Location</button>
-
-          <button onClick={this.download.bind(this)}>Download Twitter</button>
-          */}
+    if (!!this.state.newPw) {
+      return (
+        <div style={styles.container}>
+          <div style={styles.content}>
+            <p>{this.state.newPw}</p>
+            <button onClick={() => this.setState({ newPw: null }).bind(this)}>
+              I have copied my private key
+            </button>
+          </div>
         </div>
+      );
+    } else {
+      return (
+        <div style={styles.container}>
+          <h1 style={styles.heading}>CryptoPal</h1>
 
-        <div style={styles.content}>
-          <button onClick={this.deleteData}>Delete Data</button>
+          <div style={styles.content}>
+            <label htmlFor="">Private Key</label>
+            <input type="password" onChange={this.updateKey.bind(this)} />
+            <button onClick={this.downloadEncrypted}>
+              Download Encrypted Data
+            </button>
+            <button onClick={this.downloadJson.bind(this)}>
+              Download Data JSON
+            </button>
+            <button onClick={this.downloadCsvs.bind(this)}>
+              Download Data CSVs
+            </button>
+            <button onClick={this.amazonOrders.bind(this)}>
+              Download Amazon Orders
+            </button>
+            <button onClick={this.browsingData.bind(this)}>
+              Download Browsing History
+            </button>
+            <button onClick={this.shopifyOrders.bind(this)}>
+              Download Shopify
+            </button>
+            <button onClick={this.facebookLikes.bind(this)}>
+              Download Facebook Likes
+            </button>
+            <button onClick={this.twitterLikes.bind(this)}>
+              Download Twitter Likes
+            </button>
+            <button onClick={this.twitterRetweets.bind(this)}>
+              Download Twitter Retweets
+            </button>
+
+            {/*
+            <button onClick={this.download.bind(this)}>Download LinkedIn</button>
+            <button onClick={this.download.bind(this)}>Download Location</button>
+
+            <button onClick={this.download.bind(this)}>Download Twitter</button>
+            */}
+          </div>
+
+          <div style={styles.content}>
+            <button onClick={this.deleteData}>Delete Data</button>
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 }
