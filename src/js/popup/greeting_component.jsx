@@ -109,6 +109,10 @@ export default class extends React.Component {
               I have copied my private key
             </button>
           </div>
+          <p>
+            WARNING: Remember to keep this safe. If this is lost, you will lose
+            access to your data!
+          </p>
         </div>
       );
     } else {
