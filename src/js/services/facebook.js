@@ -36,6 +36,7 @@ const trackLikes = () => {
     const username = $likeBtn
       .closest(".userContentWrapper")
       .find(".fwb a")
+      .first()
       .text();
 
     const href = $likeBtn
@@ -47,17 +48,25 @@ const trackLikes = () => {
       .find("._6m3")
       .text();
 
+    const mediaHref = $likeBtn
+      .closest(".userContentWrapper")
+      .find("._1ktf a")
+      .first()
+      .attr("href");
+
     const likedPost = {
       content,
       username,
       href,
-      anchorText
+      anchorText,
+      mediaHref
     };
 
     console.log("FACEBOOK LIKED USER: ", username);
     console.log("FACEBOOK LIKED CONTENT: ", content);
     console.log("FACEBOOK LIKED HREF: ", href);
     console.log("FACEBOOK LIKED ANCHOR TEXT: ", anchorText);
+    console.log("FACEBOOK LIKED MEDIA HREF: ", mediaHref);
 
     dispatch({ type: LIKED, payload: likedPost });
   });
