@@ -22,10 +22,18 @@ const styles = {
     minWidth: "500px"
     // display: "flex", justifyContent: "center", alignItems: "center"
   },
+
+  privateKeySection: {
+    marginRight: "10px"
+  },
   heading: {
     textAlign: "center",
     flex: "1",
     color: "#123"
+  },
+  button: {
+    paddingLeft: "5px",
+    paddingRight: "5px"
   },
   content: {
     display: "flex",
@@ -121,42 +129,70 @@ export default class extends React.Component {
           <h1 style={styles.heading}>CryptoPal</h1>
 
           <div style={styles.content}>
-            <label htmlFor="">Private Key</label>
-            <input type="password" onChange={this.updateKey.bind(this)} />
-            <button onClick={this.downloadEncrypted}>
-              Download Encrypted Data
-            </button>
-            <button onClick={this.downloadJson.bind(this)}>
-              Download Data JSON
-            </button>
-            <button onClick={this.downloadCsvs.bind(this)}>
-              Download Data CSVs
-            </button>
-            <button onClick={this.amazonOrders.bind(this)}>
-              Download Amazon Orders
-            </button>
-            <button onClick={this.browsingData.bind(this)}>
-              Download Browsing History
-            </button>
-            <button onClick={this.shopifyOrders.bind(this)}>
-              Download Shopify
-            </button>
-            <button onClick={this.facebookLikes.bind(this)}>
-              Download Facebook Likes
-            </button>
-            <button onClick={this.twitterLikes.bind(this)}>
-              Download Twitter Likes
-            </button>
-            <button onClick={this.twitterRetweets.bind(this)}>
-              Download Twitter Retweets
-            </button>
+            <div style={styles.privateKeySection}>
+              <label htmlFor="">Private Key</label>
+              <input type="password" onChange={this.updateKey.bind(this)} />
+            </div>
+            <div>
+              <button onClick={this.downloadEncrypted} style={styles.button}>
+                Download Encrypted Data
+              </button>
+              <button
+                onClick={this.downloadJson.bind(this)}
+                style={styles.button}
+              >
+                Download Data JSON
+              </button>
+              <button
+                onClick={this.downloadCsvs.bind(this)}
+                style={styles.button}
+              >
+                Download Data CSVs
+              </button>
+              <button
+                onClick={this.amazonOrders.bind(this)}
+                style={styles.button}
+              >
+                Download Amazon Orders
+              </button>
+              <button
+                onClick={this.browsingData.bind(this)}
+                style={styles.button}
+              >
+                Download Browsing History
+              </button>
+              <button
+                onClick={this.shopifyOrders.bind(this)}
+                style={styles.button}
+              >
+                Download Shopify
+              </button>
+              <button
+                onClick={this.facebookLikes.bind(this)}
+                style={styles.button}
+              >
+                Download Facebook Likes
+              </button>
+              <button
+                onClick={this.twitterLikes.bind(this)}
+                style={styles.button}
+              >
+                Download Twitter Likes
+              </button>
+              <button
+                onClick={this.twitterRetweets.bind(this)}
+                style={styles.button}
+              >
+                Download Twitter Retweets
+              </button>
 
-            {/*
+              {/*
             <button onClick={this.download.bind(this)}>Download LinkedIn</button>
             <button onClick={this.download.bind(this)}>Download Location</button>
 
             <button onClick={this.download.bind(this)}>Download Twitter</button>
             */}
+            </div>
           </div>
 
           <div style={styles.content}>
