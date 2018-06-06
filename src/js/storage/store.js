@@ -211,5 +211,5 @@ const twitterRetweetsCsv = state => {
 
 // Private
 const isEmptyState = state => {
-  return state == null || Object.keys(state).length <= 0;
+  return state === undefined || Object.keys(state).length <= 0;
 };
