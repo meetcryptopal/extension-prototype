@@ -21,9 +21,13 @@ export const checkOrGenPass = cb => {
     console.log("PASSWORD: ", pw);
     if (!isEmptyState(pw)) return cb(pw); // already set.
 
-    // YOLO, going to alert here!
     const genPw = bip39.generateMnemonic();
-    console.log(genPw);
+
+    // YOLO, going to alert here!
+    window.alert(
+      `WARNING: Remember to keep this safe. If this is lost, you will lose access to your data!\n\nPRIVATE KEY:\n\n${genPw}`
+    );
+
     store.set({ [PW_KEY]: genPw }, () => cb(genPw));
   });
 };

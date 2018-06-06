@@ -31,11 +31,6 @@ Raven.context(() => {
     // on initial load + for full page refreshess
     $(window).on("load", () => {
       checkOrGenPass(pw => {
-        if (pw) {
-          window.alert(
-            `WARNING: Remember to keep this safe. If this is lost, you will lose access to your data!\n\nPRIVATE KEY:\n\n${pw}`
-          );
-        }
         scrape();
       });
     });

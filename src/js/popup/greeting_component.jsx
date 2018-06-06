@@ -40,12 +40,7 @@ export default class extends React.Component {
     super(props);
     this.state = { key: "" };
 
-    checkOrGenPass(pw => {
-      if (pw)
-        return window.alert(
-          `WARNING: Remember to keep this safe. If this is lost, you will lose access to your data!\n\nPRIVATE KEY:\n\n${pw}`
-        );
-    });
+    checkOrGenPass(pw => {});
   }
 
   downloadJson() {
