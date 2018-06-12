@@ -158,13 +158,14 @@ const getState = (state, key) => (state && state[key]) || {};
 
 const ordersCsv = state => {
   const orders = getState(state, "amazon").orders || [];
-  const fields = ["name", "quantity", "price"];
+  const fields = ["name", "quantity", "price", "href"];
   const opts = { fields };
 
   const data = orders.map(o => ({
     name: o.productName,
     quantity: o.productQuantity,
-    price: o.productPrice
+    price: o.productPrice,
+    href: o.productHref
   }));
 
   return json2csv.parse(data, opts);

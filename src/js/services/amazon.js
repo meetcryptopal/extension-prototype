@@ -56,6 +56,7 @@ const scrapeCart = () => {
 
   const AMAZON_PRODUCT_CONTAINER_SELECTOR = ".sc-list-item-content";
   const AMAZON_PRODUCT_NAME_SELECTOR = ".sc-product-title";
+  const AMAZON_PRODUCT_LINK_SELECTOR = ".sc-product-link";
   const AMAZON_PRODUCT_QUANTITY_SELECTOR = ".a-dropdown-prompt";
   const AMAZON_PRODUCT_PRICE_SELECTOR = ".sc-product-price";
 
@@ -64,6 +65,9 @@ const scrapeCart = () => {
       .find(AMAZON_PRODUCT_NAME_SELECTOR)
       .text()
       .trim();
+    const productHref = $(element)
+      .find(AMAZON_PRODUCT_LINK_SELECTOR)
+      .attr("href");
     const productQuantity = $(element)
       .find(AMAZON_PRODUCT_QUANTITY_SELECTOR)
       .text()
@@ -74,9 +78,12 @@ const scrapeCart = () => {
       .trim();
 
     console.log("AMAZON PRODUCT NAME:", productName);
+    console.log("AMAZON PRODUCT LINK:", productHref);
     console.log("AMAZON PRODUCT QUANTITY:", productQuantity);
     console.log("AMAZON PRODUCT PRICE:", productPrice);
+
     return {
+      productHref,
       productName,
       productQuantity,
       productPrice
