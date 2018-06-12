@@ -17,6 +17,9 @@ import icon from "../../img/icon-128.png";
 const store = window.chrome.storage.local;
 
 const styles = {
+  pkButton: {
+    marginLeft: "10px"
+  },
   container: {
     margin: "20px 10px 20px 10px",
     minWidth: "500px"
@@ -113,13 +116,17 @@ export default class extends React.Component {
         <div style={styles.container}>
           <div style={styles.content}>
             <p>{this.state.newPw}</p>
-            <button onClick={() => this.setState({ newPw: null }).bind(this)}>
+            <button
+              onClick={() => this.setState({ newPw: null }).bind(this)}
+              style={styles.pkButton}
+            >
               I have copied my private key
             </button>
           </div>
           <p>
-            WARNING: Remember to keep this safe. If this is lost, you will lose
-            access to your data!
+            WARNING: Make sure to copy and save your private key! It won't be
+            displayed here again. If you lose your private key, please delete
+            and re-install the extension.
           </p>
         </div>
       );
