@@ -1,8 +1,7 @@
 import FileSaver from "file-saver";
 import JSZip from "jszip";
 import json2csv from "json2csv";
-import uuidv1 from "uuid/v1";
-// import bip39 from "bip39";
+import bip39 from "bip39";
 
 import { encrypt, decrypt } from "./encryption";
 
@@ -31,7 +30,8 @@ export const checkOrGenPass = cb => {
     console.log("PASSWORD: ", pw);
     if (!isEmptyState(pw)) return cb(pw, false); // already set.
 
-    const genPw = uuidv1();
+    const mnemonic = bip39.generateMnemonic();
+    const genPw = bip39.mnemonicToSeedHex(mnemonic).slice(0, 30);
 
     store.set({ [PW_KEY]: genPw }, () => cb(genPw, true));
   });

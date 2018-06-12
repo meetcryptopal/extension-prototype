@@ -35,8 +35,9 @@ const saveOnOrder = () => {
   if (!isCheckout) {
     return;
   }
+  console.log("AMAZON CHECKOUT PAGE DETECTED");
 
-  const AMAZON_ORDER_BUTTON_SELECTOR = ".place-order-button-link";
+  const AMAZON_ORDER_BUTTON_SELECTOR = ".place-your-order-button";
 
   $("body").on("click", AMAZON_ORDER_BUTTON_SELECTOR, e => {
     console.log("AMAZON ORDER DETECTED");
