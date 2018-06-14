@@ -205,6 +205,11 @@ export default class extends React.Component {
           <div style={styles.content}>
             <button onClick={this.deleteData}>Delete Data</button>
           </div>
+
+          <p>
+            If you lost your private key, please delete and re-install the
+            extension.
+          </p>
         </div>
       );
     }
