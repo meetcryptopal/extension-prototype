@@ -117,7 +117,7 @@ export default class extends React.Component {
           <div style={styles.content}>
             <p>{this.state.newPw}</p>
             <button
-              onClick={() => this.setState({ newPw: null }).bind(this)}
+              onClick={() => this.setState({ newPw: null })}
               style={styles.pkButton}
             >
               I have copied my private key
