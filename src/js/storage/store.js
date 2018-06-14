@@ -126,12 +126,12 @@ const fetchAndParse = (key, adapter, filename) =>
 export const zipAll = (key = "") => {
   const zip = new JSZip();
   [
-    [ordersCsv, "cryptopal-amazon.csv"],
-    [browsingCsv, "cryptopal-browsing-history.csv"],
-    [shopifyCsv, "cryptopal-shopify.csv"],
-    [facebookLikesCsv, "cryptopal-facebook-likes.csv"],
-    [twitterLikesCsv, "cryptopal-twitter-likes.csv"],
-    [twitterLikesCsv, "cryptopal-twitter-retweets.csv"]
+    [ordersCsv, "cryptopal-amazon"],
+    [browsingCsv, "cryptopal-browsing-history"],
+    [shopifyCsv, "cryptopal-shopify"],
+    [facebookLikesCsv, "cryptopal-facebook-likes"],
+    [twitterLikesCsv, "cryptopal-twitter-likes"],
+    [twitterRetweetsCsv, "cryptopal-twitter-retweets"]
   ].forEach(([adapter, filename]) => fetchAndZip(zip, key, adapter, filename));
 
   zip
@@ -140,17 +140,17 @@ export const zipAll = (key = "") => {
 };
 
 export const downloadAmazonOrders = (key = "") =>
-  fetchAndParse(key, ordersCsv, "cryptopal-amazon.csv");
+  fetchAndParse(key, ordersCsv, "cryptopal-amazon");
 export const downloadBrowsing = (key = "") =>
-  fetchAndParse(key, browsingCsv, "cryptopal-browsing-history.csv");
+  fetchAndParse(key, browsingCsv, "cryptopal-browsing-history");
 export const downloadShopifyOrders = (key = "") =>
-  fetchAndParse(key, shopifyCsv, "cryptopal-shopify.csv");
+  fetchAndParse(key, shopifyCsv, "cryptopal-shopify");
 export const downloadFacebookLikes = (key = "") =>
-  fetchAndParse(key, facebookLikesCsv, "cryptopal-facebook-likes.csv");
+  fetchAndParse(key, facebookLikesCsv, "cryptopal-facebook-likes");
 export const downloadTwitterLikes = (key = "") =>
-  fetchAndParse(key, twitterLikesCsv, "cryptopal-twitter-likes.csv");
+  fetchAndParse(key, twitterLikesCsv, "cryptopal-twitter-likes");
 export const downloadTwitterRetweets = (key = "") =>
-  fetchAndParse(key, twitterLikesCsv, "cryptopal-twitter-retweets.csv");
+  fetchAndParse(key, twitterLikesCsv, "cryptopal-twitter-retweets");
 
 // CSV Mapping
 // TODO: Move this somewhere else?
