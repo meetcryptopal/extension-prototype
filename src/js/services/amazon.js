@@ -55,7 +55,7 @@ const scrapeCart = () => {
   }
   console.log("AMAZON CART DETECTED");
 
-  const AMAZON_PRODUCT_CONTAINER_SELECTOR = ".sc-list-item-content";
+  const AMAZON_PRODUCT_CONTAINER_SELECTOR = ".sc-list-item-content:first";
   const AMAZON_PRODUCT_NAME_SELECTOR = ".sc-product-title";
   const AMAZON_PRODUCT_LINK_SELECTOR = ".sc-product-link";
   const AMAZON_PRODUCT_QUANTITY_SELECTOR = ".a-dropdown-prompt";
