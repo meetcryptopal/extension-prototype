@@ -113,11 +113,7 @@ const downloadCsv = (data, filename) => {
 
 const zipCsv = (zip, data, filename) => {
   const dataBlob = new Blob([data], { type: "text/csv" });
-  zip.file(filename, dataBlob);
-};
-
-const fetchAndZip = (zip, key, adapter, filename) => {
-  fetchState(key, state => zipCsv(zip, adapter(state), filename), downloadJson);
+  return zip.file(filename, dataBlob);
 };
 
 const fetchAndParse = (key, adapter, filename) =>
@@ -125,18 +121,27 @@ const fetchAndParse = (key, adapter, filename) =>
 
 export const zipAll = (key = "") => {
   const zip = new JSZip();
-  [
-    [ordersCsv, "cryptopal-amazon"],
-    [browsingCsv, "cryptopal-browsing-history"],
-    [shopifyCsv, "cryptopal-shopify"],
-    [facebookLikesCsv, "cryptopal-facebook-likes"],
-    [twitterLikesCsv, "cryptopal-twitter-likes"],
-    [twitterRetweetsCsv, "cryptopal-twitter-retweets"]
-  ].forEach(([adapter, filename]) => fetchAndZip(zip, key, adapter, filename));
+  fetchState(
+    key,
+    state => {
+      [
+        [ordersCsv, "cryptopal-amazon.csv"],
+        [browsingCsv, "cryptopal-browsing-history.csv"],
+        [shopifyCsv, "cryptopal-shopify.csv"],
+        [facebookLikesCsv, "cryptopal-facebook-likes.csv"],
+        [twitterLikesCsv, "cryptopal-twitter-likes.csv"],
+        [twitterRetweetsCsv, "cryptopal-twitter-retweets.csv"]
+      ].reduce(
+        (zip, [adapter, filename]) => zipCsv(zip, adapter(state), filename),
+        zip
+      );
 
-  zip
-    .generateAsync({ type: "blob" })
-    .then(content => FileSaver.saveAs(content, "cryptopal.zip"));
+      zip
+        .generateAsync({ type: "blob" })
+        .then(blob => FileSaver.saveAs(blob, "cryptopal.zip"));
+    },
+    downloadJson
+  );
 };
 
 export const downloadAmazonOrders = (key = "") =>
