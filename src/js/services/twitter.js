@@ -5,11 +5,11 @@ import { updateStore } from "../storage/store";
 
 const STORE_KEY = "twitter";
 
-const initState = { likedPosts: [], retweetedPosts: [] };
+const initState = { favoritedPosts: [], retweetedPosts: [] };
 const reduceState = (state = initState, { type, payload }) => {
   switch (type) {
-    case LIKED:
-      return { ...state, likedPosts: [payload, ...state.likedPosts] };
+    case FAVORITED:
+      return { ...state, favoritedPosts: [payload, ...state.favoritedPosts] };
     case RETWEET:
       return { ...state, retweetedPosts: [payload, ...state.retweetedPosts] };
   }
@@ -18,7 +18,7 @@ const reduceState = (state = initState, { type, payload }) => {
 const dispatch = updateStore(STORE_KEY, reduceState, initState);
 
 // Actions
-const LIKED = "LIKED";
+const FAVORITED = "FAVORITED";
 const RETWEET = "RETWEET";
 
 const trackLikes = () => {
@@ -103,17 +103,17 @@ const trackLikes = () => {
 
     const content = $body.text().trim();
 
-    const likedPost = {
+    const favoritedPost = {
       content,
       username,
       handle
     };
 
-    console.log("TWITTER LIKED USER NAME: ", username);
-    console.log("TWITTER LIKED USER HANDLE: ", handle);
-    console.log("TWITTER LIKED CONTENT: ", content);
+    console.log("TWITTER FAVORITED USER NAME: ", username);
+    console.log("TWITTER FAVORITED USER HANDLE: ", handle);
+    console.log("TWITTER FAVORITED CONTENT: ", content);
 
-    dispatch({ type: LIKED, payload: likedPost });
+    dispatch({ type: FAVORITED, payload: favoritedPost });
   });
 };
 

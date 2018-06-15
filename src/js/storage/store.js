@@ -212,11 +212,11 @@ const facebookLikesCsv = state => {
 };
 
 const twitterLikesCsv = state => {
-  const likedPosts = getState(state, "twitter").likedPosts || [];
+  const favoritedPosts = getState(state, "twitter").favoritedPosts || [];
   const fields = ["handle", "username", "content"];
   const opts = { fields };
 
-  return json2csv.parse(likedPosts, opts);
+  return json2csv.parse(favoritedPosts, opts);
 };
 
 const twitterRetweetsCsv = state => {
