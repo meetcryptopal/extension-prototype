@@ -12,7 +12,7 @@ import {
   zipAll,
   checkOrGenPass
 } from "../storage/store";
-import icon from "../../img/icon-128.png";
+import icon from "../../css/img/cryptopal-logo.png";
 
 const store = window.chrome.storage.local;
 
@@ -133,7 +133,9 @@ export default class extends React.Component {
     } else {
       return (
         <div style={styles.container}>
-          <h1 style={styles.heading}>CryptoPal</h1>
+          <h1 style={styles.heading}>
+            <img src={icon} alt="CryptoPal" />
+          </h1>
 
           <div style={styles.content}>
             <div style={styles.privateKeySection}>
