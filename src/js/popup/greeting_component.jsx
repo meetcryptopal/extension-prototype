@@ -204,7 +204,9 @@ export default class extends React.Component {
           </div>
 
           <div style={styles.content}>
-            <button onClick={this.deleteData}>Delete Data</button>
+            <button className="delete" onClick={this.deleteData}>
+              Delete Data
+            </button>
           </div>
 
           <p>
