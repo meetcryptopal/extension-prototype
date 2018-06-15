@@ -156,6 +156,7 @@ export default class extends React.Component {
               >
                 Download Data CSVs
               </button>
+              {/*
               <button
                 onClick={this.amazonOrders.bind(this)}
                 style={styles.button}
@@ -193,7 +194,7 @@ export default class extends React.Component {
                 Download Twitter Retweets
               </button>
 
-              {/*
+
             <button onClick={this.download.bind(this)}>Download LinkedIn</button>
             <button onClick={this.download.bind(this)}>Download Location</button>
 
