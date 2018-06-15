@@ -27,22 +27,17 @@ const CHECKOUT = "CHECKOUT";
 const ADD_ITEM = "ADD_ITEM";
 
 const saveOnOrder = () => {
-  const AMAZON_CHECKOUT_URL =
-    "https://www.amazon.com/gp/buy/spc/handlers/display.html";
+  const AMAZON_THANK_YOU_URL =
+    "https://www.amazon.com/gp/buy/thankyou/handlers/display.html";
 
-  const isCheckout = location.href.match(AMAZON_CHECKOUT_URL);
+  const isThankYou = location.href.match(AMAZON_THANK_YOU_URL);
 
-  if (!isCheckout) {
+  if (!isThankYou) {
     return;
   }
-  console.log("AMAZON CHECKOUT PAGE DETECTED");
 
-  const AMAZON_ORDER_BUTTON_SELECTOR = ".place-your-order-button";
-
-  $("body").on("click", AMAZON_ORDER_BUTTON_SELECTOR, e => {
-    console.log("AMAZON ORDER DETECTED");
-    dispatch({ type: CHECKOUT });
-  });
+  console.log("AMAZON ORDER DETECTED");
+  dispatch({ type: CHECKOUT });
 };
 
 const scrapeCart = () => {
