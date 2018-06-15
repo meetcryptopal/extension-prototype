@@ -142,19 +142,19 @@ export default class extends React.Component {
             </div>
             <div>
               <button onClick={this.downloadEncrypted} style={styles.button}>
-                Download Encrypted Data
+                View Encrypted Data
               </button>
               <button
                 onClick={this.downloadJson.bind(this)}
                 style={styles.button}
               >
-                Download Data JSON
+                View Data JSON
               </button>
               <button
                 onClick={this.downloadCsvs.bind(this)}
                 style={styles.button}
               >
-                Download Data CSVs
+                View Data CSVs
               </button>
               {/*
               <button
