@@ -5,7 +5,7 @@ import { updateStore } from "../storage/store";
 
 const STORE_KEY = "amazon";
 
-const initState = { order: [], cartItems: [] };
+const initState = { orders: [], cartItems: [] };
 const reduceState = (state, { type, payload }) => {
   switch (type) {
     case ADD_ITEM:
