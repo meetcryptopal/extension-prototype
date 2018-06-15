@@ -23,11 +23,17 @@ Raven.context(() => {
   const VISIT_SITE = "VISIT_SITE";
 
   chrome.tabs.onUpdated.addListener((_tabId, changeInfo, tab) => {
-    const { status } = changeInfo;
+    const { status, title: newTitle } = changeInfo;
     const { url, title } = tab;
 
-    if (status === "complete" && url && url.startsWith("http")) {
+    const isYouTubeSubpage = url.match(/\/www.youtube.com\/.+/);
+    const webPageLoaded =
+      status === "complete" && url && url.startsWith("http");
+
+    if (!isYouTubeSubpage && webPageLoaded) {
       dispatch({ type: VISIT_SITE, payload: { url, title } });
+    } else if (isYouTubeSubpage && !!newTitle) {
+      dispatch({ type: VISIT_SITE, payload: { url, title: newTitle } });
     }
   });
 });

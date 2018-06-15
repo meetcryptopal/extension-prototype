@@ -15,7 +15,7 @@ const ERR_JSON = { error: "Incorrect Private Key" };
 export const store = window.chrome.storage.local;
 
 export const loadPass = cb => {
-  console.log("INSIDE", store);
+  // console.log("INSIDE LOAD PASS", store);
   store.get(PW_KEY, state => {
     const pw = state[PW_KEY];
     console.log("PASSWORD: ", pw);
@@ -24,7 +24,7 @@ export const loadPass = cb => {
 };
 
 export const checkOrGenPass = cb => {
-  console.log("INSIDE", store);
+  // console.log("INSIDE CHECK OR GEN PASS", store);
   store.get(PW_KEY, state => {
     const pw = state[PW_KEY];
     console.log("PASSWORD: ", pw);
@@ -38,8 +38,11 @@ export const checkOrGenPass = cb => {
 };
 
 export const updateStore = (key, reducer, initState = {}) => action => {
+  // console.log("INSIDE UPDATE STORE", store);
   store.get(null, storedData => {
     const pass = storedData[PW_KEY];
+    if (!pass) return;
+
     // Decrypt.
     let encryptedData = storedData[ROOT_KEY];
     encryptedData = isEmptyState(encryptedData) ? "" : encryptedData;
@@ -74,6 +77,7 @@ const downloadJson = (data, opts) => {
 };
 
 export const fetchState = (key, cb, errCb, opts) => {
+  // console.log("INSIDE FETCH STATE", store);
   opts = opts || {};
   // Uncomment for debugging
   // key = PW;
