@@ -12,7 +12,7 @@ import {
   zipAll,
   checkOrGenPass
 } from "../storage/store";
-import icon from "../../css/img/cryptopal-logo.png";
+import icon from "../../img/cryptopal-logo.png";
 
 const store = window.chrome.storage.local;
 
