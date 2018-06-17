@@ -13,6 +13,7 @@ import {
   checkOrGenPass
 } from "../storage/store";
 import icon from "../../img/cryptopal-logo.png";
+import _favicon from "../../img/icon-128.png"; // if we don't import this it doesn't show up in the build
 
 const store = window.chrome.storage.local;
 
