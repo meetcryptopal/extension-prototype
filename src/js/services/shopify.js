@@ -5,7 +5,7 @@ import { updateStore } from "../storage/store";
 
 const STORE_KEY = "shopify";
 
-const initState = { order: [], cartItems: [] };
+const initState = { orders: [], cartItems: [] };
 const reduceState = (state = initState, { type, payload }) => {
   switch (type) {
     case ADD_ITEM:
