@@ -123,6 +123,9 @@ export default class extends React.Component {
             <img src={icon} alt="CryptoPal" />
           </h1>
 
+          <br />
+          <br />
+
           <div style={styles.content}>
             <div className="row" style={styles.privateKeySection}>
               <label htmlFor="">Private Key</label>
@@ -206,6 +209,8 @@ export default class extends React.Component {
           </div>
 
           <br />
+          <br />
+
           <div className="row" style={styles.content}>
             <button
               className="btn delete ten columns"
@@ -216,6 +221,8 @@ export default class extends React.Component {
           </div>
 
           <br />
+          <br />
+
           <p className="row">
             If you lost your private key, please delete and re-install the
             extension.
