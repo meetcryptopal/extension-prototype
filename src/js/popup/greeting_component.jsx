@@ -29,21 +29,6 @@ const styles = {
 
   privateKeySection: {
     marginRight: "10px"
-  },
-  heading: {
-    textAlign: "center",
-    flex: "1",
-    color: "#123"
-  },
-  button: {
-    paddingLeft: "5px",
-    paddingRight: "5px"
-  },
-  content: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    margin: 20
   }
 };
 
@@ -134,26 +119,40 @@ export default class extends React.Component {
     } else {
       return (
         <div style={styles.container}>
-          <h1 style={styles.heading}>
+          <h1 className="row" style={styles.heading}>
             <img src={icon} alt="CryptoPal" />
           </h1>
 
           <div style={styles.content}>
-            <div style={styles.privateKeySection}>
+            <div className="row" style={styles.privateKeySection}>
               <label htmlFor="">Private Key</label>
-              <input type="password" onChange={this.updateKey.bind(this)} />
+              <input
+                className="ten columns"
+                type="password"
+                onChange={this.updateKey.bind(this)}
+              />
             </div>
-            <div>
-              <button onClick={this.downloadEncrypted} style={styles.button}>
+
+            <br />
+            <br />
+
+            <div className="row">
+              <button
+                className="btn ten columns"
+                onClick={this.downloadEncrypted}
+                style={styles.button}
+              >
                 View Encrypted Data
               </button>
               <button
+                className="btn ten columns"
                 onClick={this.downloadJson.bind(this)}
                 style={styles.button}
               >
                 View Data JSON
               </button>
               <button
+                className="btn ten columns"
                 onClick={this.downloadCsvs.bind(this)}
                 style={styles.button}
               >
@@ -206,13 +205,18 @@ export default class extends React.Component {
             </div>
           </div>
 
-          <div style={styles.content}>
-            <button className="delete" onClick={this.deleteData}>
+          <br />
+          <div className="row" style={styles.content}>
+            <button
+              className="btn delete ten columns"
+              onClick={this.deleteData}
+            >
               Delete Data
             </button>
           </div>
 
-          <p>
+          <br />
+          <p className="row">
             If you lost your private key, please delete and re-install the
             extension.
           </p>
