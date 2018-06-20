@@ -6,8 +6,14 @@ import { updateStore } from "../storage/store";
 const STORE_KEY = "amazon";
 
 const initState = { orders: [], cartItems: [] };
-const reduceState = (state, { type, payload }) => {
+const reduceState = (state = initState, { type, payload }) => {
   switch (type) {
+    case ONE_CLICK_BUY:
+      return {
+        ...state,
+        orders: [...state.orders, payload]
+      };
+
     case ADD_ITEM:
       return { ...state, cartItems: [...payload] };
 
@@ -25,6 +31,53 @@ const dispatch = updateStore(STORE_KEY, reduceState, initState);
 // Actions
 const CHECKOUT = "CHECKOUT";
 const ADD_ITEM = "ADD_ITEM";
+const ONE_CLICK_BUY = "ONE_CLICK_BUY";
+
+const saveOnOneClickPurchase = () => {
+  const AMAZON_PRODUCT_URL = "https://www.amazon.com/gp/product/";
+
+  const isProductPage = location.href.match(AMAZON_PRODUCT_URL);
+
+  if (!isProductPage) {
+    return;
+  }
+
+  const AMAZON_ONE_CLICK_BUY_BUTTON_SELECTOR = "#one-click-button";
+
+  $("body").on("click", AMAZON_ONE_CLICK_BUY_BUTTON_SELECTOR, e => {
+    const AMAZON_PRODUCT_NAME_SELECTOR = "#productTitle";
+    const AMAZON_PRODUCT_QUANTITY_SELECTOR = "#quantity";
+    const AMAZON_PRODUCT_PRICE_SELECTOR = "#priceblock_ourprice";
+
+    console.log("AMAZON ONE CLICK BUY DETECTED");
+
+    const productName = $(AMAZON_PRODUCT_NAME_SELECTOR)
+      .text()
+      .trim();
+
+    const productHref = location.href;
+
+    const productQuantity = $(AMAZON_PRODUCT_QUANTITY_SELECTOR).val();
+
+    const productPrice = $(AMAZON_PRODUCT_PRICE_SELECTOR)
+      .text()
+      .trim();
+
+    console.log("AMAZON PRODUCT NAME:", productName);
+    console.log("AMAZON PRODUCT LINK:", productHref);
+    console.log("AMAZON PRODUCT QUANTITY:", productQuantity);
+    console.log("AMAZON PRODUCT PRICE:", productPrice);
+
+    const cartItem = {
+      productName,
+      productQuantity,
+      productPrice,
+      productHref
+    };
+
+    dispatch({ type: ONE_CLICK_BUY, payload: cartItem });
+  });
+};
 
 const saveOnOrder = () => {
   const AMAZON_THANK_YOU_URL =
@@ -91,5 +144,6 @@ const scrapeCart = () => {
 
 export default {
   scrapeCart,
-  saveOnOrder
+  saveOnOrder,
+  saveOnOneClickPurchase
 };
