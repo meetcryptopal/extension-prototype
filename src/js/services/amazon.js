@@ -11,7 +11,7 @@ const reduceState = (state = initState, { type, payload }) => {
     case ONE_CLICK_BUY:
       return {
         ...state,
-        orders: [...state.orders, payload]
+        cartItems: [payload]
       };
 
     case ADD_ITEM:
