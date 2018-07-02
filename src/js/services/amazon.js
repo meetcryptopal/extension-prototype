@@ -11,7 +11,7 @@ const reduceState = (state = initState, { type, payload }) => {
     case ONE_CLICK_BUY:
       return {
         ...state,
-        cartItems: [payload]
+        orders: [payload, ...state.orders]
       };
 
     case ADD_ITEM:
@@ -34,7 +34,7 @@ const ADD_ITEM = "ADD_ITEM";
 const ONE_CLICK_BUY = "ONE_CLICK_BUY";
 
 const saveOnOneClickPurchase = () => {
-  const AMAZON_PRODUCT_URL = "https://www.amazon.com/gp/product/";
+  const AMAZON_PRODUCT_URL = /https:\/\/www.amazon.com.+\/dp\/.+/;
 
   const isProductPage = location.href.match(AMAZON_PRODUCT_URL);
 
