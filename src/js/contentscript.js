@@ -13,7 +13,7 @@ Raven.config(
 ).install();
 
 const scrape = () => {
-  Amazon.scrapeCart();
+  Amazon.scrapeCartWhenProceedingToCheckout();
   Amazon.saveOnOrder();
   Amazon.saveOnOneClickPurchase();
   Shopify.scrapeCheckout();

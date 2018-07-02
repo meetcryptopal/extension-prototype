@@ -18,7 +18,7 @@ export const loadPass = cb => {
   // console.log("INSIDE LOAD PASS", store);
   store.get(PW_KEY, state => {
     const pw = state[PW_KEY];
-    console.log("PASSWORD: ", pw);
+    // console.log("PASSWORD: ", pw);
     if (!isEmptyState(pw)) return cb(pw, false); // only call callback if password exists. otherwise, do nothing
   });
 };
@@ -27,7 +27,7 @@ export const checkOrGenPass = cb => {
   // console.log("INSIDE CHECK OR GEN PASS", store);
   store.get(PW_KEY, state => {
     const pw = state[PW_KEY];
-    console.log("PASSWORD: ", pw);
+    // console.log("PASSWORD: ", pw);
     if (!isEmptyState(pw)) return cb(pw, false); // already set.
 
     const mnemonic = bip39.generateMnemonic();

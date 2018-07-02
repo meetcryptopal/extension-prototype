@@ -93,6 +93,11 @@ const saveOnOrder = () => {
   dispatch({ type: CHECKOUT });
 };
 
+const scrapeCartWhenProceedingToCheckout = () => {
+  const AMAZON_PROCEED_CHECKOUT_BUTTON_SELECTOR = "#sc-buy-box-ptc-button";
+  $("body").on("click", AMAZON_PROCEED_CHECKOUT_BUTTON_SELECTOR, scrapeCart);
+};
+
 const scrapeCart = () => {
   const AMAZON_CART_URL = "https://www.amazon.com/gp/cart/view.html";
 
@@ -144,7 +149,7 @@ const scrapeCart = () => {
 };
 
 export default {
-  scrapeCart,
+  scrapeCartWhenProceedingToCheckout,
   saveOnOrder,
   saveOnOneClickPurchase
 };
