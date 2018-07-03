@@ -34,49 +34,55 @@ const ADD_ITEM = "ADD_ITEM";
 const ONE_CLICK_BUY = "ONE_CLICK_BUY";
 
 const saveOnOneClickPurchase = () => {
-  const AMAZON_PRODUCT_URL = /https:\/\/www.amazon.com.+\/dp\/.+/;
+  $("#addToCart").submit(event => {
+    const buttonId = document.activeElement.id;
+    if (!buttonId.match(/oneclickbuybutton/i)) return;
+    event.preventDefault();
+
+    addDirectlyToOrders();
+    this.submit();
+  });
+};
+
+const addDirectlyToOrders = () => {
+  const AMAZON_PRODUCT_URL = /https:\/\/www.amazon.com.*\/d?g?p\/.+/;
 
   const isProductPage = location.href.match(AMAZON_PRODUCT_URL);
 
   if (!isProductPage) {
     return;
   }
+  console.log("AMAZON ONE CLICK BUY DETECTED");
 
-  const AMAZON_ONE_CLICK_BUY_BUTTON_SELECTOR = "#one-click-button";
+  const AMAZON_PRODUCT_NAME_SELECTOR = "#productTitle";
+  const AMAZON_PRODUCT_QUANTITY_SELECTOR = "#quantity";
+  const AMAZON_PRODUCT_PRICE_SELECTOR = "#priceblock_ourprice";
 
-  $("body").on("click", AMAZON_ONE_CLICK_BUY_BUTTON_SELECTOR, e => {
-    const AMAZON_PRODUCT_NAME_SELECTOR = "#productTitle";
-    const AMAZON_PRODUCT_QUANTITY_SELECTOR = "#quantity";
-    const AMAZON_PRODUCT_PRICE_SELECTOR = "#priceblock_ourprice";
+  const productName = $(AMAZON_PRODUCT_NAME_SELECTOR)
+    .text()
+    .trim();
 
-    console.log("AMAZON ONE CLICK BUY DETECTED");
+  const productHref = location.href;
 
-    const productName = $(AMAZON_PRODUCT_NAME_SELECTOR)
-      .text()
-      .trim();
+  const productQuantity = $(AMAZON_PRODUCT_QUANTITY_SELECTOR).val();
 
-    const productHref = location.href;
+  const productPrice = $(AMAZON_PRODUCT_PRICE_SELECTOR)
+    .text()
+    .trim();
 
-    const productQuantity = $(AMAZON_PRODUCT_QUANTITY_SELECTOR).val();
+  console.log("AMAZON PRODUCT NAME:", productName);
+  console.log("AMAZON PRODUCT LINK:", productHref);
+  console.log("AMAZON PRODUCT QUANTITY:", productQuantity);
+  console.log("AMAZON PRODUCT PRICE:", productPrice);
 
-    const productPrice = $(AMAZON_PRODUCT_PRICE_SELECTOR)
-      .text()
-      .trim();
+  const cartItem = {
+    productName,
+    productQuantity,
+    productPrice,
+    productHref
+  };
 
-    console.log("AMAZON PRODUCT NAME:", productName);
-    console.log("AMAZON PRODUCT LINK:", productHref);
-    console.log("AMAZON PRODUCT QUANTITY:", productQuantity);
-    console.log("AMAZON PRODUCT PRICE:", productPrice);
-
-    const cartItem = {
-      productName,
-      productQuantity,
-      productPrice,
-      productHref
-    };
-
-    dispatch({ type: ONE_CLICK_BUY, payload: cartItem });
-  });
+  dispatch({ type: ONE_CLICK_BUY, payload: cartItem });
 };
 
 const saveOnOrder = () => {
@@ -84,8 +90,10 @@ const saveOnOrder = () => {
     "https://www.amazon.com/gp/buy/thankyou/handlers/display.html";
 
   const isThankYou = location.href.match(AMAZON_THANK_YOU_URL);
+  const fromOneClickOrder =
+    $('body:contains("1-Click order has been placed")').length > 0;
 
-  if (!isThankYou) {
+  if (!isThankYou || fromOneClickOrder) {
     return;
   }
 
