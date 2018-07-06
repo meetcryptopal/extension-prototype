@@ -35,8 +35,8 @@ const ONE_CLICK_BUY = "ONE_CLICK_BUY";
 
 const saveOnOneClickPurchase = () => {
   $("#addToCart").submit(event => {
-    const buttonId = document.activeElement.id;
-    if (!buttonId.match(/oneclickbuybutton/i)) return;
+    const buttonId = document.activeElement.id.replace(/-/g, "");
+    if (!buttonId.match(/oneclick/i)) return;
 
     addDirectlyToOrders();
   });
