@@ -34,7 +34,7 @@ const ADD_ITEM = "ADD_ITEM";
 const ONE_CLICK_BUY = "ONE_CLICK_BUY";
 
 const saveOnOneClickPurchase = () => {
-  $("#addToCart").submit(event => {
+  $(document).on("submit", "#addToCart", function() {
     const buttonId = document.activeElement.id.replace(/-/g, "");
     if (!buttonId.match(/oneclick/i)) return;
 
