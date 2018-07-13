@@ -36,10 +36,9 @@ const ONE_CLICK_BUY = "ONE_CLICK_BUY";
 const saveOnOneClickPurchase = () => {
   const reattach = () => {
     console.log("Listening to one click.");
-    $("#addToCart")
+    $("body")
       .off() // paranoid removal to not attach more than 1 handler.
-      .on("submit", evt => {
-        evt.preventDefault();
+      .on("submit", "#addToCart", evt => {
         const buttonId = document.activeElement.id.replace(/-/g, "");
         console.log("BUTTON ID: ", buttonId);
         if (!buttonId.match(/oneclick/i)) return;
