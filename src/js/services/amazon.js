@@ -34,13 +34,24 @@ const ADD_ITEM = "ADD_ITEM";
 const ONE_CLICK_BUY = "ONE_CLICK_BUY";
 
 const saveOnOneClickPurchase = () => {
-  $(document).on("submit", "#addToCart", function() {
-    const buttonId = document.activeElement.id.replace(/-/g, "");
-    console.log("BUTTON ID: ", buttonId);
-    if (!buttonId.match(/oneclick/i)) return;
+  const reattach = () => {
+    console.log("Listening to one click.");
+    $("#addToCart")
+      .off() // paranoid removal to not attach more than 1 handler.
+      .on("submit", evt => {
+        evt.preventDefault();
+        const buttonId = document.activeElement.id.replace(/-/g, "");
+        console.log("BUTTON ID: ", buttonId);
+        if (!buttonId.match(/oneclick/i)) return;
 
-    addDirectlyToOrders();
-  });
+        addDirectlyToOrders();
+      });
+  };
+
+  // TODO: NEED TO FIND EVENT TO REATTACH TO.
+
+  // First attachment.
+  reattach();
 };
 
 const addDirectlyToOrders = () => {
