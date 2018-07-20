@@ -2,6 +2,7 @@ import FileSaver from "file-saver";
 import JSZip from "jszip";
 import json2csv from "json2csv";
 import bip39 from "bip39";
+import _ from "lodash";
 
 import { encrypt, decrypt } from "./encryption";
 
@@ -68,6 +69,9 @@ const downloadJson = (data, opts) => {
   const errJson = opts.raw ? { error: "no data" } : ERR_JSON;
 
   data = isEmptyState(data) ? errJson : data;
+
+  // Blacklist
+  data.amazon = _.omit(data.amazon, ["cartItems"]);
 
   // Hack to prettify.
   data = JSON.stringify(data, null, 2);
